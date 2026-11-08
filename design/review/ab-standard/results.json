@@ -1,0 +1,13 @@
+{
+  "passed": [
+    "index: desktop/mobile screenshots; 320px reflow; 200% text; keyboard skip link; first-party assets.",
+    "adventure: desktop/mobile screenshots; 320px reflow; 200% text; keyboard skip link; first-party assets.",
+    "journal: desktop/mobile screenshots; 320px reflow; 200% text; keyboard skip link; first-party assets.",
+    "Adventure: ordered disclosure, focus transfer, back/forward preserve progress.",
+    "adventure: copy failure fallback, unavailable/canceled share, explicit download, reload clears note (browser API mocks; not native-device evidence).",
+    "journal: copy failure fallback, unavailable/canceled share, explicit download, reload clears note (browser API mocks; not native-device evidence)."
+  ],
+  "limitations": [
+    "Native-device share and screen-reader testing not performed."
+  ]
+}

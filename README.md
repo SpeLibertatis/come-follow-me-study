@@ -7,7 +7,7 @@ The student websites are **not deployed**. Publication is blocked pending securi
 
 ## Style standard
 
-The approved [repository style standard](STYLE_GUIDE.md) establishes the Daniel prototype's cinematic artwork, ivory editorial reading, and teal discovery surfaces as the direction for new and substantially redesigned experiences. Use the shared [design tokens](design/tokens.css) and consult the [reference prototype and review screenshots](prototypes/daniel-visual-v1/README.md). Existing A/B pages require a separately scoped migration; adopting the standard does not merge or deploy changes.
+The approved [repository style standard](STYLE_GUIDE.md) establishes the Daniel prototype's cinematic artwork, ivory editorial reading, and teal discovery surfaces as the direction for new and substantially redesigned experiences. Use the shared [design tokens](design/tokens.css) and consult the [reference prototype and review screenshots](prototypes/daniel-visual-v1/README.md). The A/B comparison, Guided Adventure, and Study Journal use the shared standard. Adventure retains a sequential route; Journal retains free exploration. See the [migration review](design/review/ab-standard/README.md). Styling changes do not authorize deployment.
 
 ## Privacy design
 - No accounts, forms that submit data, databases, analytics, advertising, cookies, or third-party scripts.

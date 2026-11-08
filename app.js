@@ -1,1 +1,84 @@
-"use strict";(()=>{const panels=document.querySelectorAll("[data-panel]");document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{const target=b.dataset.go;if(!/^(start|finish|deep|story[0-2])$/.test(target))return;panels.forEach(p=>p.hidden=p.dataset.panel!==target);window.scrollTo({top:0,behavior:"instant"});}));const boxes=[...document.querySelectorAll("input[data-progress]")];const update=()=>{const n=boxes.filter(b=>b.checked).length;const t=document.getElementById("progress");if(t)t.textContent=n+" of "+boxes.length+" complete";const bar=document.getElementById("progressbar");if(bar)bar.style.width=(boxes.length?100*n/boxes.length:0)+"%";};boxes.forEach(b=>b.addEventListener("change",update));update();const note=document.getElementById("private-thought");const status=document.querySelector(".save-status");const say=s=>{if(status)status.textContent=s;};document.querySelectorAll("[data-save]").forEach(button=>button.addEventListener("click",async()=>{if(!note)return;const value=note.value;if(!value.trim()){say("Write a thought first, or simply reflect quietly.");note.focus();return;}const action=button.dataset.save;try{if(action==="copy"){if(!navigator.clipboard?.writeText)throw new Error("Clipboard unavailable");await navigator.clipboard.writeText(value);say("Copied. Paste into your own notes app to keep it. Your clipboard may be visible to other apps.");}else if(action==="share"){if(!navigator.share){say("Sharing is unavailable here. Use Copy or Download instead.");return;}await navigator.share({title:"My private scripture reflection",text:value});say("Share sheet closed. Check your chosen app to confirm it saved.");}else if(action==="download"){const blob=new Blob([value+"\n"],{type:"text/plain;charset=utf-8"});const url=URL.createObjectURL(blob);try{const a=document.createElement("a");a.href=url;a.download="my-scripture-reflection.txt";a.click();say("Download requested. Check your device's Files or Downloads folder.");}finally{setTimeout(()=>URL.revokeObjectURL(url),30000);}}}catch(e){if(e?.name==="AbortError"){say("Sharing canceled. Your note is still on this page.");}else{say("That action did not complete. Try another option or copy the text manually.");}}}));window.addEventListener("pageshow",e=>{if(e.persisted&&note){note.value="";say("This page was restored; your earlier note was cleared for privacy.");}});})();
+"use strict";
+(() => {
+  const panels = [...document.querySelectorAll('[data-panel]')];
+  const note = document.getElementById('private-thought');
+  const status = document.querySelector('.save-status');
+  const say = message => { if (status) status.textContent = message; };
+  const validPanel = value => /^(start|finish|deep|story[0-2])$/.test(value);
+  function showPanel(value, focus = false) {
+    if (!panels.length) return;
+    const target = validPanel(value) ? value : 'start';
+    panels.forEach(panel => { panel.hidden = panel.dataset.panel !== target; });
+    if (focus) document.getElementById(target)?.focus();
+  }
+  function syncLocation(focus = false) {
+    showPanel(location.hash.slice(1), focus && (validPanel(location.hash.slice(1)) || !location.hash));
+    document.querySelectorAll('nav a').forEach(link => {
+      if (link.hash === location.hash) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+  document.querySelectorAll('[data-go]').forEach(button => {
+    button.addEventListener('click', () => {
+      const target = button.dataset.go;
+      if (!validPanel(target)) return;
+      if (location.hash === '#' + target) showPanel(target, true);
+      else location.hash = target;
+    });
+  });
+  window.addEventListener('hashchange', () => syncLocation(true));
+  syncLocation();
+  // Keep evidence ahead of interpretation while retaining previously opened prompts.
+  document.querySelectorAll('.story').forEach(story => {
+    const steps = [...story.querySelectorAll('details')];
+    steps.forEach((step, index) => {
+      if (index) step.hidden = true;
+      step.addEventListener('toggle', () => {
+        if (step.open && steps[index + 1]) steps[index + 1].hidden = false;
+      });
+    });
+  });
+  document.querySelectorAll('[data-save]').forEach(button => {
+    button.addEventListener('click', async () => {
+      if (!note) return;
+      const value = note.value;
+      if (!value.trim()) {
+        say('Write a thought first, or simply reflect quietly.');
+        note.focus();
+        return;
+      }
+      try {
+        if (button.dataset.save === 'copy') {
+          if (!navigator.clipboard?.writeText) throw Error('Clipboard unavailable');
+          await navigator.clipboard.writeText(value);
+          say('Copied. Your clipboard may be visible to other apps.');
+        } else if (button.dataset.save === 'share') {
+          if (!navigator.share) {
+            say('Sharing is unavailable here. Use Copy or Download instead.');
+            return;
+          }
+          await navigator.share({title: 'My private scripture reflection', text: value});
+          say('Share sheet closed. Check your chosen app to confirm it saved.');
+        } else if (button.dataset.save === 'download') {
+          const url = URL.createObjectURL(new Blob([value + '\n'], {type: 'text/plain;charset=utf-8'}));
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'my-scripture-reflection.txt';
+          link.click();
+          setTimeout(() => URL.revokeObjectURL(url), 30000);
+          say("Download requested. Check your device's Files or Downloads folder.");
+        }
+      } catch (error) {
+        if (error?.name === 'AbortError') say('Sharing canceled. Your note is still on this page.');
+        else {
+          note.focus();
+          note.select();
+          say('That action did not complete. Your text is selected for manual copying, or try another option.');
+        }
+      }
+    });
+  });
+  const clearNote = () => { if (note) note.value = ''; say(''); };
+  window.addEventListener('pagehide', clearNote);
+  window.addEventListener('pageshow', event => { if (event.persisted) clearNote(); });
+})();
