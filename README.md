@@ -24,3 +24,9 @@ Before publishing: inspect all HTML/JS and dependencies; remove external embeds 
 
 ## Study experience
 The A/B chooser has been replaced by the Daniel study edition. The original visual v1 prototype remains an archived reference. No remote analytics or identifying student feedback are collected.
+
+## Printable student handout
+
+[Download the two-page student PDF](handouts/daniel-student-handout.pdf). It contains the three essential scripture readings, context, questions, writing space, and a static QR code to the public study URL. Print on Letter paper, or choose Fit for A4; optional double-sided printing uses the long edge. No phone is needed to complete it. The PDF never includes browser reflections and loads only when selected.
+
+To regenerate after changing lesson content, install the development-only `reportlab` package and run `python scripts/build_handout.py`. Install `pypdf` and run `python tests/verify_handout.py` to check the PDF and its page links. Recheck both rendered pages and decode the QR before publishing. These packages are not shipped to students.

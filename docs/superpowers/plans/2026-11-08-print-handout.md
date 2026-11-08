@@ -1,0 +1,5 @@
+# Printable student handout
+
+User asks to print the study for students without phones and include a QR code. Extend the merged main branch with a self-hosted two-page PDF, linked from the journey and library. Use an offline generator to extract the essential passages and questions from index.html, preventing a separately maintained lesson. Exclude entered reflections and optional research; provide blank writing lines. The fixed QR encodes the public study URL with no tracking parameters; print a readable fallback address beside it. Use black text on white, readable body type, explicit page breaks and Letter pages that can fit on A4. No runtime dependencies, remote QR services or embedded viewers.
+
+Steps: add PDF contract test and observe failure; build PDF with ReportLab; inspect both rendered pages and decode the QR from a rendering; add website links; run existing checks and independent review; open a new draft PR against main. Do not merge or deploy. Deliver the PDF in chat for immediate printing.
