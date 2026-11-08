@@ -95,7 +95,7 @@ Write in a mature, invitational voice. Questions should invite discovery rather 
 
 ## Applying and reviewing the standard
 
-New study pages and substantial redesigns should use these tokens and patterns. Existing A/B pages remain as they are until a separately scoped migration is approved. The prototype remains a reference implementation; later refinements for contrast, readable labels and touch targets take precedence over copying its CSS verbatim.
+New study pages and substantial redesigns should use these tokens and patterns. The main study now uses the Daniel visual v1 composition directly; the former A/B URLs redirect to that experience. The prototype remains a reference implementation; later refinements for contrast, readable labels and touch targets take precedence over copying its CSS verbatim.
 
 For visual changes, include mobile and desktop screenshots plus a short explanation of the learning purpose. Check keyboard navigation, focus, 320 px reflow, zoom, reduced motion, source labels, asset loading and privacy/export fallbacks as relevant to the change. Validate actual contrast over artwork. Record native-device and screen-reader checks honestly; mocked browser APIs are not device evidence. Do not repeat unrelated checks for documentation-only changes.
 

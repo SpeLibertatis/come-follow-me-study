@@ -1,5 +1,7 @@
 # Daniel visual exploration v1
 
+Current status: this prototype is an archived reference. Its layout has been promoted to the main study entry point, replacing the A/B routes. The implementation and versioning notes below describe the original prototype work; see [current review](../../design/review/daniel-main/README.md).
+
 Isolated, dependency-free prototype for issue #1. The owner approved this visual direction as the foundation for the [repository style standard](../../STYLE_GUIDE.md). Use that guide and the shared [design tokens](../../design/tokens.css) for new and substantially redesigned experiences. Existing production A/B pages have not been migrated. No deployment, hosting configuration, backend, or production entry points are changed.
 
 ## Preview

@@ -7,7 +7,7 @@ The student websites are **not deployed**. Publication is blocked pending securi
 
 ## Style standard
 
-The approved [repository style standard](STYLE_GUIDE.md) establishes the Daniel prototype's cinematic artwork, ivory editorial reading, and teal discovery surfaces as the direction for new and substantially redesigned experiences. Use the shared [design tokens](design/tokens.css) and consult the [reference prototype and review screenshots](prototypes/daniel-visual-v1/README.md). The A/B comparison, Guided Adventure, and Study Journal use the shared standard. Adventure retains a sequential route; Journal retains free exploration. See the [migration review](design/review/ab-standard/README.md). Styling changes do not authorize deployment.
+The approved [repository style standard](STYLE_GUIDE.md) establishes the Daniel prototype's cinematic artwork, ivory editorial reading, and teal discovery surfaces as the direction for new and substantially redesigned experiences. Use the shared [design tokens](design/tokens.css) and consult the [reference prototype and review screenshots](prototypes/daniel-visual-v1/README.md). The main entry point now uses the Daniel visual v1 composition directly: cinematic opening, editorial reading, source-led discovery, and optional reflection. Essential and Deep Study are available within that single experience. Legacy Adventure and Journal URLs redirect to it. See the [replacement review](design/review/daniel-main/README.md). Styling changes do not authorize deployment.
 
 ## Privacy design
 - No accounts, forms that submit data, databases, analytics, advertising, cookies, or third-party scripts.
@@ -20,5 +20,5 @@ The approved [repository style standard](STYLE_GUIDE.md) establishes the Daniel 
 ## Security release gate
 Before publishing: inspect all HTML/JS and dependencies; remove external embeds and trackers; enforce restrictive CSP; test both versions on mobile; check accessibility and links; review image rights; verify no participant data leaves the browser; enable HTTPS and repository branch protection.
 
-## A/B testing
-Use anonymous, optional, in-person feedback without identifying students or recording individual religious responses. No remote analytics.
+## Study experience
+The A/B chooser has been replaced by the Daniel study edition. The original visual v1 prototype remains an archived reference. No remote analytics or identifying student feedback are collected.
