@@ -14,5 +14,17 @@ A discreet, original line-art lion opens eight optional word puzzles from Daniel
 ## Review findings addressed
 An independent review found two accessibility issues: disabling a focused hint/reveal control, and fixed alphabet columns/long word groups under 200% text enlargement. Completion now places focus on the next-word control; a regression test failed first and now passes. Alphabet columns respond to available width, and long letter groups may wrap. Browser regression cases are included.
 
-## Browser and release checks outstanding
-The development container blocks Chromium's required Unix sockets; the provided cloud browser cannot reach the container's local preview. `tests/verify_game.py` is ready but has not run successfully here. Actual mobile/text enlargement, native focus, screenshot, screen-reader, and first-party network behavior must be checked in a usable browser before calling verification complete. GitHub reports main unprotected, while the repository release instructions require branch protection; no protection setting has been changed.
+## Browser and release verification
+The real Chromium suite passed in [GitHub Actions run 42502211624](https://github.com/SpeLibertatis/come-follow-me-study/actions/runs/42502211624): 11 browser tests plus the 9 DOM, 4 repository, and 3 handout tests. This includes 320px reflow, 44px targets, 200% text within the game, reduced-motion behavior, native completion focus, keyboard isolation, missing-script fallback, reload, no storage, and no unexpected or third-party network requests. Screenshots were inspected after download from the workflow artifact.
+
+- [Desktop game](desktop-game.png)
+- [320px discovery viewport](mobile-discovery-viewport.png)
+- [320px controls viewport](mobile-controls-viewport.png)
+- [320px controls with 200% text](mobile-enlarged-controls-viewport.png)
+
+Full-element captures of a tall section can place fixed navigation in misleading locations, so the mobile review uses actual viewport screenshots. The new game reflows at enlarged text; the existing study navigation is unchanged. No physical-device or screen-reader pass is claimed.
+
+The owner enabled an active default-branch protection rule on November 8, 2026 that blocks deletion and force pushes. GitHub now reports main as protected. This change is released through the reviewed pull request.
+
+## Reproducibility note
+Action versions and direct development dependencies are pinned; npm transitive packages have a lockfile. The GitHub-hosted runner, system Chrome, Node version, and Python transitive dependencies can change between runs. This is a maintenance consideration, not a runtime dependency of the study.
