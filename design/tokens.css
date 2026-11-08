@@ -19,8 +19,8 @@
 
   --cfm-font-editorial: Georgia, 'Times New Roman', serif;
   --cfm-font-interface: Arial, Helvetica, sans-serif;
-  --cfm-type-hero: clamp(4.75rem, 9vw, 8.5rem);
-  --cfm-type-heading: clamp(2.625rem, 5vw, 4.125rem);
+  --cfm-type-hero: clamp(3.75rem, 7vw, 6rem);
+  --cfm-type-heading: clamp(2rem, 3.5vw, 2.75rem);
   --cfm-type-subheading: 2.125rem;
   --cfm-type-reading: 1.25rem;
   --cfm-type-body: 1rem;
