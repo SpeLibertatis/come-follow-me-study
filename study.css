@@ -59,7 +59,7 @@ details[open] summary { margin-bottom: .25rem; }
 .reflection { background: var(--cfm-color-reflection); }
 .reflection label { display: block; font-weight: bold; margin: 1.5rem 0 .5rem; }
 .reflection label span { font-weight: normal; }
-textarea { width: 100%; resize: vertical; border: 1px solid var(--cfm-color-control-border); background: var(--cfm-color-field); padding: 1rem; color: var(--cfm-color-ink); border-radius: 0; line-height: 1.6; }
+textarea { width: 100%; resize: none; min-height: 12rem; border: 1px solid var(--cfm-color-control-border); background: var(--cfm-color-field); padding: 1rem; color: var(--cfm-color-ink); border-radius: 0; line-height: 1.6; }
 .privacy { margin-top: .75rem; }
 .keep-reflection { border-color: var(--cfm-color-control-border); margin-top: 1.5rem; }
 .keep-reflection p { font-size: .875rem; }
@@ -100,3 +100,19 @@ footer p { max-width: var(--cfm-reading-width); font-size: .875rem; }
   .scripture { padding-left: 1rem; font-size: 1.125rem; }
 }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } }
+/* Shared chapter and exhibit extensions retain the existing token ownership. */
+:root { --cfm-scrollbar-thumb: var(--cfm-color-control-border); --cfm-scrollbar-track: var(--cfm-color-paper); }
+* { scrollbar-color: var(--cfm-scrollbar-thumb) var(--cfm-scrollbar-track); scrollbar-width: auto; }
+::-webkit-scrollbar { width: 14px; height: 14px; }
+::-webkit-scrollbar-track { background: var(--cfm-scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--cfm-scrollbar-thumb); border: 3px solid var(--cfm-scrollbar-track); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover,::-webkit-scrollbar-thumb:active { background: var(--cfm-color-teal); }
+.outcome { margin-top: 1.5rem; }
+.deep-study { margin-top: 1.5rem; }
+.reading details { border-color: var(--cfm-color-control-border); }
+.discovery .scripture { border-color: var(--cfm-color-gold); }
+.section-body > .resource { margin-bottom: 1.5rem; }
+a:hover,summary:hover { text-decoration: underline; }
+a:active,summary:active { text-decoration-thickness: 2px; }
+@media(forced-colors:active) { * { scrollbar-color: auto; } }
+@media(max-width:420px) { .masthead { align-items: flex-start; flex-direction: column; gap: .5rem; } .masthead .text-link { margin-top: 0; } }

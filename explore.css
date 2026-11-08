@@ -1,0 +1,32 @@
+.library-intro { padding: 3rem max(1.5rem,calc((100% - 1200px)/2)); background: var(--cfm-color-discovery); color: var(--cfm-color-on-dark); }
+.library-intro h1 { font-size: clamp(3.5rem,7vw,6.5rem); }
+.library-intro h1 em { color: var(--cfm-color-fire); }
+.library-intro p { max-width: 65ch; }
+.library-layout { max-width: 1200px; margin: auto; padding: 3rem 1.5rem; display: grid; grid-template-columns: 15rem minmax(0,1fr); gap: 4rem; }
+.library-guide nav { display: grid; margin-bottom: 1.5rem; }
+.library-guide a { display: flex; align-items: center; min-height: 48px; padding: .5rem 0; }
+.library-content { min-width: 0; }
+.library-content h2 { font-size: clamp(2rem,3.5vw,3rem); }
+.theme-panel { padding-bottom: 2rem; border-bottom: 1px solid var(--cfm-color-line); }
+.themes { display: flex; flex-wrap: wrap; gap: .5rem; }
+.themes button { min-height: 44px; padding: .65rem 1rem; color: var(--cfm-color-ink); background: transparent; border: 1px solid var(--cfm-color-control-border); text-align: left; }
+.themes button:hover { background: var(--cfm-color-reflection); }
+.themes button[aria-pressed=true] { background: var(--cfm-color-teal); color: var(--cfm-color-on-dark); text-decoration: underline; text-underline-offset: .2em; }
+.themes button:active { transform: translateY(1px); }
+#filter-status { min-height: 1.65em; margin: 1rem 0 0; }
+.resource-section { padding-top: 3rem; }
+.library-resource { border-top: 1px solid var(--cfm-color-line); padding: 2rem 0; overflow-wrap: anywhere; }
+.library-resource h3 { font-size: clamp(1.6rem,2.5vw,2rem); margin-bottom: .65rem; }
+.resource-meta,.chapters-label,.access { font-size: .875rem; }
+.byline { font-weight: bold; }
+.resource-question { padding-left: 1rem; border-left: 3px solid var(--cfm-color-teal); }
+.source-detail { border-color: var(--cfm-color-line); }
+.source-detail summary { font-size: .875rem; }
+.source-detail p { font-size: .9375rem; }
+.advanced { margin-top: 2rem; padding: 2rem; background: var(--cfm-color-reflection); }
+.advanced details { border-color: var(--cfm-color-control-border); }
+.advanced dt { font-weight: bold; }
+.advanced dd { margin: .25rem 0 1rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media(max-width:850px) { .library-layout { grid-template-columns: 1fr; gap: 1.5rem; } .library-guide nav { grid-template-columns: repeat(2,minmax(0,1fr)); gap: .5rem 1rem; } .advanced { padding: 1.5rem; } }
+@media(max-width:420px) { .library-guide nav { grid-template-columns: 1fr; } }

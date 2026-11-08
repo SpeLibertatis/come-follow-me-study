@@ -1,10 +1,10 @@
 # Repository style standard
 
-Version 1.1 · Personal-study refinement · November 8, 2026
+Version 1.2 · Three-chapter study and research library · November 8, 2026
 
 ## Personal-study refinement
 
-The current main experience serves ages 13–15 studying independently. Its primary job is a complete, approximately five-minute Daniel 3 study: Understand → Read → Notice → Try. The furnace remains the subject throughout. Completion never requires a written reflection, a quiz or opened commentary. Additional accounts and longer passages are optional after the finish point.
+The current main experience serves ages 13–15 studying independently. Its primary job is a complete, approximately 15-minute Daniel 1 → 3 → 6 journey: three four-minute chapters and a three-minute synthesis/reflection. Each chapter follows context → read → notice → try. Completion never requires a written reflection, quiz, external resource or opened commentary. Native deep-study disclosures are optional within each chapter. Explore Further is a separate editorial exhibit; it never becomes a required step.
 
 Keep the original gateway artwork and existing palette. Use expressive Georgia for the title and scripture, with Arial for instructions and controls. The main page now consumes the canonical `design/tokens.css` directly. The hero token is `clamp(3.75rem, 7vw, 6rem)`; the section-heading token is `clamp(2rem, 3.5vw, 2.75rem)`. Use a centered 700px reading measure instead of the wide section-number rail. On phones, start-study action and time estimate take priority over illustration scale. This refinement supersedes the larger typography, rail layout and Essential/Deep Study selector described in the v1 reference below; the prototype remains archived.
 
@@ -87,7 +87,7 @@ Provide intrinsic image dimensions, useful alt text for meaningful images, and e
 
 - **Masthead:** compact study identity and lesson/chapter orientation. An independent, supplemental identity must be clear; do not imitate an official Church product.
 - **Primary action:** one obvious next step per section. Use a solid teal action on ivory, or ivory on the dark hero. Prefer direct verb labels. Keep secondary actions visually quieter and links recognizable.
-- **Study length:** labeled native radios in a fieldset, with time estimates in text. Switching between Essential and Deep Study must preserve the current section and reflection. Keep the optional expanded reading clearly identified.
+- **Study length:** show time estimates in text, without a countdown. The essential sequence is always present; native optional deep-study disclosures preserve the current section and reflection. No global mode switch or completion gate is needed.
 - **Section navigation:** semantic links with useful fragment URLs, visible current-location state, keyboard focus, and native back/forward behavior. Reflection content never belongs in a URL.
 - **Reading:** show accurate chapter and verse ranges beside official-source links. Separate scripture quotation, original summary, narrative context and interpretation through explicit labels, not just color or typography. Link to exact text instead of reproducing text whose rights or accuracy are uncertain.
 - **Discovery:** begin with an observation question and source. Reveal evidence before explanation. Where appropriate, disclose command, response and outcome in order using native details/summary. Preserve useful progress when switching accounts. No timed pressure, points, celebratory rewards or guaranteed-miracle framing.
