@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-08T06:10:34.167Z",
+  "browser": "157.0.8103.39",
+  "results": [
+    "All three accounts reveal command → response → outcome with keyboard Enter.",
+    "Native anchor back/forward and mode changes preserve section orientation.",
+    "Copy success and denied fallback; share success/cancel/unavailable branches; downloaded text bytes; clear verified. Native share UI uses mocks and still needs real-device review.",
+    "No external requests during complete study/export flow; storage/cookies empty; reflection clears on reload; markup input stays text.",
+    "Browser enforced CSP: same-origin fetch blocked by connect-src none; inline script blocked.",
+    "Reduced-motion preference disables smooth scrolling; no animation loops.",
+    "No horizontal overflow at 320, 390, 768, 1440 CSS pixels. Desktop and mobile screenshots captured.",
+    "Local mobile timing (not a device benchmark): {\"resources\":[{\"name\":\"study.css\",\"bytes\":7238},{\"name\":\"study.js\",\"bytes\":7280},{\"name\":\"babylon.svg\",\"bytes\":3273}],\"domContentLoaded\":35}",
+    "No uncaught browser errors."
+  ]
+}
