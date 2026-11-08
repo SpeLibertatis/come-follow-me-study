@@ -5,11 +5,28 @@ const scenes = [
   {title:'Before the furnace',ref:'DANIEL 3:13–30',chapter:3,context:'Narrative context · The king’s image and public decree make worship a test of loyalty in the story (Daniel 3:1–7). This imagined setting is not an archaeological reconstruction.',question:'What remains unchanged in their answer if deliverance does not come?',steps:['Command · The king orders worship of the image under threat of the furnace (3:14–15).','Response · The friends affirm God’s power to deliver, yet refuse to worship the image even if He does not (3:16–18).','Outcome · The narrative describes their preservation in the fire and the king’s acknowledgment of their God (3:24–30). Interpretation: their commitment came before they knew the outcome.']},
   {title:'The open window',ref:'DANIEL 6:6–23',chapter:6,context:'Narrative context · Daniel 6 places Daniel under Darius. Officials use a royal prohibition to target his established religious practice (Daniel 6:1–9). Read this as the account’s setting, without treating every historical identification as settled.',question:'Which detail shows that prayer was already part of Daniel’s life?',steps:['Command · A decree forbids petitions to any god or man other than the king for thirty days, with the lions’ den as penalty (6:6–9).','Response · Daniel continues his established practice of prayer and thanksgiving (6:10–11).','Outcome · Daniel is cast into the den and later found unharmed; he attributes his preservation to God (6:16–23). Interpretation: the story invites reflection on steady devotion, not a formula for safety.']}
 ];
+scenes[0].context = 'Narrative context · In Babylon’s court, Daniel and the other young captives receive training, new names, and provisions from the king. Daniel decides he cannot accept the royal food and wine.';
+scenes[0].question = 'How do you hold firm while showing respect?';
+scenes[0].steps = [
+  'The king assigns the young men daily food and wine during their training.',
+  'Daniel resolves not to defile himself and asks permission. He then proposes a ten-day test: vegetables to eat and water to drink.',
+  'After ten days, the account describes their healthier appearance. Later, it describes their learning and skill.'
+];
+scenes[0].labels = ['The king’s provision', 'Daniel’s request', 'What happens next'];
+scenes[0].references = ['Daniel 1:5', 'Daniel 1:8–14', 'Daniel 1:15–20'];
 const $ = selector => document.querySelector(selector);
 const buttons = [...document.querySelectorAll('[data-scene]')];
 const progress = scenes.map(() => 0);
 function renderScene(index) {
   const scene = scenes[index];
+  $('.evidence').classList.toggle('table-scene', index === 0);
+  $('#scene-hook').hidden = index !== 0;
+  $('#scene-hook').textContent = 'A new name. A new education. A royal menu. Where would Daniel draw the line?';
+  $('#scene-prompt').hidden = index !== 0;
+  $('.pause-note').hidden = index !== 0;
+  $('#observation-label').textContent = index === 0 ? 'YOUR OBSERVATION FIRST' : 'YOUR OBSERVATION FIRST · PAUSE AND CONSIDER';
+  $('#scene-reflection').hidden = index !== 0;
+
   buttons.forEach((button,i) => button.setAttribute('aria-pressed',String(i === index)));
   $('#scene-title').textContent = scene.title;
   $('#scene-ref').textContent = scene.ref;
@@ -19,30 +36,22 @@ function renderScene(index) {
   const container = $('#reveals');
   container.replaceChildren();
   scene.steps.forEach((step,i) => {
-    if (i > progress[index]) return;
-    const details = document.createElement('details');
-    const summary = document.createElement('summary');
-    const paragraph = document.createElement('p');
-    summary.textContent = ['01 / Reveal the command','02 / Reveal the response','03 / Reveal the outcome'][i];
-    paragraph.textContent = step;
-    details.append(summary,paragraph);
-    details.addEventListener('toggle',() => {
-      if (details.open && progress[index] === i && i < 2) {
-        progress[index]++;
-        const next = makeNext(index,i + 1);
-        container.append(next);
-      }
-    });
-    container.append(details);
+    if (i <= progress[index]) container.append(makeNext(index,i));
   });
 }
 function makeNext(index,i) {
   const details = document.createElement('details');
   const summary = document.createElement('summary');
   const paragraph = document.createElement('p');
-  summary.textContent = ['01 / Reveal the command','02 / Reveal the response','03 / Reveal the outcome'][i];
+  summary.textContent = scenes[index].labels ? `${String(i + 1).padStart(2,'0')} / ${scenes[index].labels[i]}` : ['01 / Reveal the command','02 / Reveal the response','03 / Reveal the outcome'][i];
   paragraph.textContent = scenes[index].steps[i];
   details.append(summary,paragraph);
+  if (scenes[index].references) {
+    const reference = document.createElement('p');
+    reference.className = 'reveal-reference';
+    reference.textContent = scenes[index].references[i];
+    details.append(reference);
+  }
   details.addEventListener('toggle',() => {
     if (details.open && progress[index] === i && i < 2) {
       progress[index]++;
