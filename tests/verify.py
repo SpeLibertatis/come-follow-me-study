@@ -55,7 +55,7 @@ class Contracts(unittest.TestCase):
         self.assertEqual(text.count('class="access"'), len(records))
 
     def test_no_collection(self):
-        for name in ['study.js', 'explore.js']:
+        for name in ['study.js', 'explore.js', 'game.js']:
             text = (ROOT / name).read_text(encoding='utf-8')
             for forbidden in ['localStorage', 'sessionStorage', 'indexedDB', 'sendBeacon', 'fetch(', 'XMLHttpRequest', 'document.cookie', 'innerHTML']:
                 self.assertNotIn(forbidden, text, name)

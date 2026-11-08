@@ -32,3 +32,9 @@ The A/B chooser has been replaced by the Daniel study edition. The original visu
 To regenerate after changing lesson content, install the development-only `reportlab` package and run `python scripts/build_handout.py`. Install `pypdf` and run `python tests/verify_handout.py` to check the PDF and its page links. Recheck both rendered pages and decode the QR before publishing. These packages are not shipped to students.
 
 [Explore Further print companion](handouts/daniel-explore-further.pdf) is a separate, optional six-page library: official sources (pages 1–2), video and theme guide with QR (page 3), scholarship (pages 4–5), and Advanced Research (page 6). Print only the pages you need. It includes all 14 resource introductions, questions, access notes, and readable clickable source links; full external articles and video still require access to their publishers. Regenerate with `python scripts/build_explore_handout.py`; the handout checks cover both PDFs.
+
+## Hidden Daniel word challenge
+
+Near the bottom of the study, tap the small lion and “A quiet lion is hiding here…” to open eight short word puzzles based on Daniel 1, 3, and 6. [Jump to the lion](https://spelibertatis.github.io/come-follow-me-study/#lions-den). Students may guess, reveal a letter, show an answer, or skip freely. The game is optional, with no timer, lost lives, scores, accounts, or saved progress. It never gates lesson completion.
+
+Development-only interaction tests: install `jsdom@26.1.0` outside the site (`npm install --prefix /tmp/daniel-game-test --cache /tmp/daniel-npm-cache jsdom@26.1.0`), then run `NODE_PATH=/tmp/daniel-game-test/node_modules node --test tests/verify_game.cjs`. Also run `node --check game.js`. The optional Chromium browser suite is `python tests/verify_game.py`; it needs Python Playwright and a supported local Chromium installation. These test dependencies are never served to students.

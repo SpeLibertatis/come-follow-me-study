@@ -1,0 +1,35 @@
+/* An optional discovery, using the study's existing tokens and native controls. */
+.game-section { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.game-section details { border: 0; }
+.game-section summary { padding: 1rem 0; color: var(--cfm-color-on-dark); }
+.game-lion { width: 52px; height: 52px; margin: 0 .75rem 0 .25rem; vertical-align: middle; color: var(--cfm-color-gold); }
+.game-invitation { display: inline-block; vertical-align: middle; }
+.game-invitation small { display: block; font-size: .875rem; font-weight: normal; color: var(--cfm-color-muted-on-dark); }
+.game-intro { margin-top: 1.5rem; }
+.game-section h2 { font-size: var(--cfm-type-heading); }
+.game-section .game-instructions { margin-bottom: 1.5rem; }
+.game-topline { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; margin-top: 2rem; align-items: baseline; }
+.game-topline p { margin: 0; }
+.game-topline .resource { margin: 0; }
+.game-clue { font: 1.25rem/1.5 var(--cfm-font-editorial); margin: .75rem 0 0; scroll-margin-top: 6rem; }
+.game-clue:focus { outline: 2px solid var(--cfm-color-focus-on-dark); outline-offset: 5px; }
+.game-word { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; padding: 1.75rem 0; min-height: 6rem; }
+.game-word-group { display: inline-flex; flex-wrap: wrap; gap: .25rem; max-width: 100%; min-width: 0; }
+.game-letter { display: inline-block; text-align: center; width: clamp(1.2rem, 4.7vw, 2rem); border-bottom: 2px solid var(--cfm-color-gold); font: bold clamp(1.1rem, 4.7vw, 1.6rem)/1.5 var(--cfm-font-interface); }
+.game-alphabet { display: grid; grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); gap: .5rem; max-width: 34rem; margin-bottom: 1rem; }
+.game-section button { min-height: 48px; min-width: 44px; padding: .5rem .75rem; border: 1px solid var(--cfm-color-line-on-dark); background: transparent; color: var(--cfm-color-on-dark); border-radius: 0; }
+.game-alphabet button { padding: .5rem .25rem; font-weight: bold; }
+.game-section button:hover:not(:disabled):not([aria-disabled="true"]) { background: var(--cfm-color-on-dark); color: var(--cfm-color-discovery); }
+.game-section button:active:not(:disabled):not([aria-disabled="true"]) { outline: 2px solid var(--cfm-color-gold); outline-offset: 1px; }
+.game-section button[data-state="found"] { background: var(--cfm-color-gold); color: var(--cfm-color-discovery); border-color: var(--cfm-color-gold); }
+.game-section button[data-state="miss"] { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--cfm-color-muted-on-dark); }
+.game-section button:disabled,.game-section button[aria-disabled="true"] { cursor: default; }
+.game-section button:disabled { color: var(--cfm-color-muted-on-dark); border-style: dashed; }
+.game-section .game-status { min-height: 3.5rem; margin-bottom: 1rem; }
+.game-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-bottom: 1.5rem; }
+.game-section .game-next { background: var(--cfm-color-on-dark); color: var(--cfm-color-discovery); font-weight: bold; }
+.game-section .game-next:hover { text-decoration: underline; }
+.game-section .game-explanation { border-left: 3px solid var(--cfm-color-gold); padding: .5rem 0 .5rem 1rem; margin-bottom: 1.5rem; }
+.game-section .privacy { color: var(--cfm-color-muted-on-dark); }
+@media(max-width:380px) { .game-invitation { max-width: 9.5rem; } }
+@media(forced-colors:active) { .game-section button[data-state="found"] { border: 3px solid ButtonText; } }
