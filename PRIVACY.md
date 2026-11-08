@@ -7,3 +7,5 @@ Students can explicitly copy thoughts to their system clipboard, open their devi
 No analytics, advertisements, cookies, databases, or third-party scripts are included. Explore Further does not collect reading history, personal notes, or resource engagement. Theme choices last only until the library is reloaded. Videos, PDFs, thumbnails, fonts, and other third-party assets are not embedded or fetched by the library. Resources open only when you select a link, in a new tab without a referrer or access to the original tab.
 
 The hosting provider and network intermediaries may process ordinary access logs including IP addresses. External scripture, video, and research links follow the destination site's privacy practices.
+
+The optional Daniel word challenge uses only the current page’s memory. It does not collect names, guesses, scores, or play history. Game progress clears when the page reloads or exits. Scripture links are opened only when selected; they leave this site.

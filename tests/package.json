@@ -1,0 +1,10 @@
+{
+  "name": "daniel-study-tests",
+  "private": true,
+  "scripts": {
+    "test": "node --test verify_game.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}

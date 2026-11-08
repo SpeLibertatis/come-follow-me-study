@@ -17,3 +17,6 @@ Native keyboard behavior, visible focus, 44px minimum control height, natural do
 
 ## Verification
 See `design/review/three-chapter/README.md`. Preserve the existing style guide's token mapping and privacy contract when extending the collection.
+
+## Optional word challenge
+The lion-marked disclosure near the footer is a separately requested Easter egg, not part of completing the study. Eight clue-based word puzzles use native buttons and a polite status region. No timer, lost lives, score, religious-behavior reward, or persistence. The existing study keeps its quiet, ungated flow. `game.css` owns only this disclosure’s layout and consumes the same runtime tokens. `game.js` owns volatile game state; keyboard letter shortcuts apply only within the open disclosure.
