@@ -1,0 +1,46 @@
+/* Repository style standard v1.0. Load locally before page-specific styles.
+   Variables only: existing pages are unaffected until they opt in. */
+:root {
+  --cfm-color-ink: #242923;
+  --cfm-color-paper: #f4f0e7;
+  --cfm-color-reflection: #e9e5da;
+  --cfm-color-field: #f6f3ec;
+  --cfm-color-teal: #163e3e;
+  --cfm-color-discovery: #142e30;
+  --cfm-color-on-dark: #f3eee3;
+  --cfm-color-muted-on-dark: #d2d9d2;
+  --cfm-color-gold: #dbb383;
+  --cfm-color-fire: #efbc88;
+  --cfm-color-line: #c9c4b8;
+  --cfm-color-line-on-dark: #607574;
+  --cfm-color-control-border: #777f72;
+  --cfm-color-focus: #b56d27;
+  --cfm-color-focus-on-dark: #efbc88;
+
+  --cfm-font-editorial: Georgia, 'Times New Roman', serif;
+  --cfm-font-interface: Arial, Helvetica, sans-serif;
+  --cfm-type-hero: clamp(4.75rem, 9vw, 8.5rem);
+  --cfm-type-heading: clamp(2.625rem, 5vw, 4.125rem);
+  --cfm-type-subheading: 2.125rem;
+  --cfm-type-reading: 1.25rem;
+  --cfm-type-body: 1rem;
+  --cfm-type-meta: 0.75rem;
+  --cfm-leading-hero: 0.95;
+  --cfm-leading-heading: 1.08;
+  --cfm-leading-body: 1.65;
+
+  --cfm-space-1: 0.25rem;
+  --cfm-space-2: 0.5rem;
+  --cfm-space-3: 0.75rem;
+  --cfm-space-4: 1rem;
+  --cfm-space-6: 1.5rem;
+  --cfm-space-8: 2rem;
+  --cfm-space-12: 3rem;
+  --cfm-space-16: 4rem;
+  --cfm-space-24: 6rem;
+  --cfm-reading-width: 43.75rem;
+  --cfm-page-gutter: clamp(1.5rem, 8vw, 6rem);
+  --cfm-control-min-size: 2.75rem;
+  --cfm-focus-width: 0.1875rem;
+  --cfm-focus-offset: 0.3125rem;
+}
