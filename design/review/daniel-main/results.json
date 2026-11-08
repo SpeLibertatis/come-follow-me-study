@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-08T06:51:15.110Z",
+  "date": "2026-11-08T06:56:18.593Z",
   "browser": "157.0.8103.39",
   "results": [
     "All three accounts reveal command → response → outcome with keyboard Enter.",
@@ -9,9 +9,9 @@
     "Browser enforced CSP: same-origin fetch blocked by connect-src none; inline script blocked.",
     "Reduced-motion preference disables smooth scrolling; no animation loops.",
     "No horizontal overflow at 320, 390, 768, 1440 CSS pixels. Desktop and mobile screenshots captured.",
-    "Local mobile timing (not a device benchmark): {\"resources\":[{\"name\":\"tokens.css\",\"bytes\":1514},{\"name\":\"style.css\",\"bytes\":8646},{\"name\":\"app.js\",\"bytes\":7378},{\"name\":\"babylon.svg\",\"bytes\":3306}],\"domContentLoaded\":35}",
+    "Local mobile timing (not a device benchmark): {\"resources\":[{\"name\":\"study.css\",\"bytes\":7238},{\"name\":\"study.js\",\"bytes\":7280},{\"name\":\"babylon.svg\",\"bytes\":3273}],\"domContentLoaded\":49}",
     "Legacy Adventure and Journal URLs redirect to the single Daniel experience.",
-    "320px viewport also reflows at 200% text size.",
+    "Full-page screenshots match the original Daniel v1 pixel-for-pixel at 1440px and 390px.",
     "No uncaught browser errors."
   ]
 }
