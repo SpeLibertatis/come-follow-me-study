@@ -3,6 +3,7 @@ from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 import threading
+import os
 import unittest
 from playwright.sync_api import sync_playwright, expect
 
@@ -19,7 +20,7 @@ class WordChallenge(unittest.TestCase):
         threading.Thread(target=cls.server.serve_forever, daemon=True).start()
         cls.url = f'http://127.0.0.1:{cls.server.server_port}/'
         cls.pw = sync_playwright().start()
-        cls.browser = cls.pw.chromium.launch(executable_path='/usr/bin/chromium', headless=True, args=['--no-sandbox'])
+        cls.browser = cls.pw.chromium.launch(executable_path=os.environ.get('CHROME_PATH', '/usr/bin/chromium'), headless=True, args=['--no-sandbox'])
         expect.set_options(timeout=2000)
 
     @classmethod
@@ -146,6 +147,21 @@ class WordChallenge(unittest.TestCase):
             box = button.bounding_box()
             self.assertGreaterEqual(box['height'], 44)
             self.assertGreaterEqual(box['width'], 44)
+
+    def test_capture_review_screenshots(self):
+        output = os.environ.get('DANIEL_SCREENSHOT_DIR')
+        if not output:
+            self.skipTest('Set DANIEL_SCREENSHOT_DIR to save review images')
+        output = Path(output)
+        output.mkdir(parents=True, exist_ok=True)
+        self.open_game()
+        self.page.locator('#lions-den').screenshot(path=str(output / 'desktop-game.png'))
+        self.page.set_viewport_size({'width': 320, 'height': 740})
+        self.page.locator('#lions-den').screenshot(path=str(output / 'mobile-game.png'))
+        for _ in range(6): self.page.locator('#game-next').click()
+        self.page.locator('#game-reveal').click()
+        self.page.evaluate("document.documentElement.style.fontSize = '200%'")
+        self.page.locator('#lions-den').screenshot(path=str(output / 'mobile-enlarged-game.png'))
 
     def test_script_unavailable_has_useful_fallback(self):
         self.page.route('**/game.js', lambda route: route.abort())
