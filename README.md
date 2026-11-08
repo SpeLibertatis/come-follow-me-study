@@ -5,6 +5,10 @@ Privacy-first, unofficial supplemental scripture study experiences for youth. Th
 ## Deployment status
 The student websites are **not deployed**. Publication is blocked pending security and privacy review.
 
+## Style standard
+
+The approved [repository style standard](STYLE_GUIDE.md) establishes the Daniel prototype's cinematic artwork, ivory editorial reading, and teal discovery surfaces as the direction for new and substantially redesigned experiences. Use the shared [design tokens](design/tokens.css) and consult the [reference prototype and review screenshots](prototypes/daniel-visual-v1/README.md). Existing A/B pages require a separately scoped migration; adopting the standard does not merge or deploy changes.
+
 ## Privacy design
 - No accounts, forms that submit data, databases, analytics, advertising, cookies, or third-party scripts.
 - No participant names, emails, religious reflections, or identifiers are collected.

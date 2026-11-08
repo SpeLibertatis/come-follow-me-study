@@ -1,6 +1,6 @@
 # Daniel visual exploration v1
 
-Isolated, dependency-free prototype for issue #1. All design standards here are **proposals for review**, not standards adopted across the production A/B experiences. No deployment, hosting configuration, backend, or production entry points are changed.
+Isolated, dependency-free prototype for issue #1. The owner approved this visual direction as the foundation for the [repository style standard](../../STYLE_GUIDE.md). Use that guide and the shared [design tokens](../../design/tokens.css) for new and substantially redesigned experiences. Existing production A/B pages have not been migrated. No deployment, hosting configuration, backend, or production entry points are changed.
 
 ## Preview
 
@@ -45,6 +45,6 @@ Limitations: local timing is not a real-device/Lighthouse score. Native share br
 
 ## Versioning and rollback
 
-Baseline: `3ca4d364117fd7e69909d85b620490cec488d383`. Work exclusively on `design/daniel-rich-visual-exploration`; draft PR targets main. Four checkpoints: shell/tokens; original artwork; interactions/content; security tests/review notes. Production `index.html`, `adventure.html`, `journal.html`, `style.css`, `app.js`, and existing policies remain byte-for-byte unchanged.
+Original prototype baseline: `3ca4d364117fd7e69909d85b620490cec488d383`. Four prototype checkpoints: shell/tokens; original artwork; interactions/content; security tests/review notes. PR #2 was subsequently merged on GitHub. The style-standard follow-up stays on `design/daniel-rich-visual-exploration` and uses a new draft PR against main. It adopts the owner-approved repository style standard. Production `index.html`, `adventure.html`, `journal.html`, `style.css`, `app.js`, and existing policies remain byte-for-byte unchanged by this work.
 
-Before merge, discard the design branch/close the draft PR to abandon this exploration; main is unaffected. To undo after an eventual approved merge, revert the merge commit (or revert these four commits in reverse order on an authorized branch). Do not reset shared main history. No deployment rollback is needed because nothing was deployed.
+To abandon the style-standard follow-up before merge, close its draft PR; the already merged prototype remains. To undo the follow-up after an eventual approved merge, revert that merge or its documentation commit on an authorized branch. The original prototype can separately be reverted through PR #2's merge commit. Do not reset shared main history. This follow-up does not deploy anything or change hosting settings.
