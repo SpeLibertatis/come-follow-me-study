@@ -158,10 +158,17 @@ class WordChallenge(unittest.TestCase):
         self.page.locator('#lions-den').screenshot(path=str(output / 'desktop-game.png'))
         self.page.set_viewport_size({'width': 320, 'height': 740})
         self.page.locator('#lions-den').screenshot(path=str(output / 'mobile-game.png'))
+        self.game.locator('summary').scroll_into_view_if_needed()
+        self.page.screenshot(path=str(output / 'mobile-discovery-viewport.png'))
+        self.page.locator('#game-alphabet').scroll_into_view_if_needed()
+        self.page.screenshot(path=str(output / 'mobile-controls-viewport.png'))
         for _ in range(6): self.page.locator('#game-next').click()
         self.page.locator('#game-reveal').click()
         self.page.evaluate("document.documentElement.style.fontSize = '200%'")
         self.page.locator('#lions-den').screenshot(path=str(output / 'mobile-enlarged-game.png'))
+        self.page.locator('#game-word').scroll_into_view_if_needed()
+        self.page.screenshot(path=str(output / 'mobile-enlarged-controls-viewport.png'))
+        self.assertLessEqual(self.page.locator('.skip').bounding_box()['y'] + self.page.locator('.skip').bounding_box()['height'], 0)
 
     def test_script_unavailable_has_useful_fallback(self):
         self.page.route('**/game.js', lambda route: route.abort())
