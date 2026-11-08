@@ -23,4 +23,30 @@ class Handout(unittest.TestCase):
         for name in ['index.html','explore.html']:
             self.assertIn('href="handouts/daniel-student-handout.pdf"',(ROOT/name).read_text(encoding='utf-8'))
 
+class ExploreCompanion(unittest.TestCase):
+    def test_complete_library_and_links(self):
+        import sys
+        sys.path.insert(0,str(ROOT/'scripts'))
+        from build_handout import Tree, Node, plain
+        source=Tree((ROOT/'explore.html').read_text(encoding='utf-8')).root
+        pdf=PdfReader(ROOT/'handouts/daniel-explore-further.pdf')
+        self.assertEqual(len(pdf.pages),6)
+        text=plain(' '.join(page.extract_text() for page in pdf.pages))
+        urls={a.get_object().get('/A',{}).get('/URI') for page in pdf.pages for a in page.get('/Annots',[])}
+        count=0
+        for shelf in ['official','commentary','scholarship']:
+            for article in source.find(id=shelf).children:
+                if not isinstance(article,Node) or article.tag!='article': continue
+                count+=1
+                for field in ['h3','byline','resource-meta','chapters-label','investigate','resource-question','access']:
+                    node=article.find('h3') if field=='h3' else article.find(cls=field)
+                    self.assertIn(plain(node.text()),text)
+                self.assertIn(article.find('a').attrs['href'],urls)
+        self.assertEqual(count,14)
+        self.assertIn(URL+'explore.html',urls)
+        self.assertIn('What remains uncertain',text)
+        self.assertFalse(pdf.get_fields())
+        for name in ['index.html','explore.html']:
+            self.assertIn('href="handouts/daniel-explore-further.pdf"',(ROOT/name).read_text(encoding='utf-8'))
+
 if __name__=='__main__': unittest.main()
