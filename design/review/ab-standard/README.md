@@ -24,3 +24,5 @@ node design/review/ab-standard/verify.cjs
 ```
 
 The script serves local files only, saves screenshots/results here, and closes its browser and server on completion.
+
+Contrast check: the minimum 80% dark overlay bounds even white artwork to RGB (59, 71, 73). Ivory, muted text, and gold metadata exceed 4.5:1 against that worst-case surface; large copper hero emphasis exceeds 3:1. Actual artwork is darker.

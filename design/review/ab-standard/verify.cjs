@@ -23,5 +23,3 @@ for(const name of ['adventure','journal']){
 }
 assert.deepEqual(errors,[]);fs.writeFileSync(path.join(__dirname,'results.json'),JSON.stringify({passed:results,limitations:['Native-device share and screen-reader testing not performed.']},null,2));console.log(results.join('\n'));
 }finally{await browser.close();server.close();}})().catch(e=>{console.error(e);server.close();process.exitCode=1;});
-
-

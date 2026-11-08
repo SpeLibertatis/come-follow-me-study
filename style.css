@@ -16,7 +16,7 @@ section, [id] { scroll-margin-top: var(--cfm-space-8); }
 .skip:focus { top: 1rem; }
 .opening { position: relative; isolation: isolate; background: var(--cfm-color-discovery); color: var(--cfm-color-on-dark); padding: var(--cfm-space-8) var(--cfm-page-gutter) var(--cfm-space-16); overflow: hidden; }
 .opening-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% center; z-index: -2; }
-.opening::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,rgba(10,25,27,.94),rgba(10,25,27,.82) 65%,rgba(10,25,27,.7)); z-index: -1; }
+.opening::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,rgba(10,25,27,.94),rgba(10,25,27,.82) 65%,rgba(10,25,27,.8)); z-index: -1; }
 .opening-content { max-width: 62rem; }
 .opening p { max-width: var(--cfm-reading-width); }
 .opening h1 + p { font: var(--cfm-type-reading)/1.65 var(--cfm-font-editorial); }
@@ -76,3 +76,4 @@ footer p { max-width: var(--cfm-reading-width); }
 #deep > .story a { color: var(--cfm-color-teal); }
 #deep > .story .question { border-left-color: var(--cfm-color-control-border); }
 #deep > .story :focus-visible { outline-color: var(--cfm-color-focus); }
+
