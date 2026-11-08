@@ -14,20 +14,18 @@ scenes[0].steps = [
 ];
 scenes[0].labels = ['The king’s provision', 'Daniel’s request', 'What happens next'];
 scenes[0].references = ['Daniel 1:5', 'Daniel 1:8–14', 'Daniel 1:15–20'];
+scenes[1].context = 'Story context · Shadrach, Meshach, and Abed-nego face a choice: worship the king’s image or be thrown into a furnace.';
+scenes[1].question = 'Would they still follow God if He didn’t rescue them? Which words show their choice?';
+scenes[2].context = 'Story context · Under King Darius, a new law forbids prayer to anyone except the king for thirty days. Daniel has already made prayer part of his daily life.';
 const $ = selector => document.querySelector(selector);
 const buttons = [...document.querySelectorAll('[data-scene]')];
 const progress = scenes.map(() => 0);
+const opened = scenes.map(() => [false, false, false]);
+let activeScene = 1;
 function renderScene(index) {
+  activeScene = index;
   const scene = scenes[index];
-  $('.evidence').classList.toggle('table-scene', index === 0);
-  $('#scene-hook').hidden = index !== 0;
-  $('#scene-hook').textContent = 'A new name. A new education. A royal menu. Where would Daniel draw the line?';
-  $('#scene-prompt').hidden = index !== 0;
-  $('.pause-note').hidden = index !== 0;
-  $('#observation-label').textContent = index === 0 ? 'YOUR OBSERVATION FIRST' : 'YOUR OBSERVATION FIRST · PAUSE AND CONSIDER';
-  $('#scene-reflection').hidden = index !== 0;
-
-  buttons.forEach((button,i) => button.setAttribute('aria-pressed',String(i === index)));
+  buttons.forEach(button => button.setAttribute('aria-pressed',String(Number(button.dataset.scene) === index)));
   $('#scene-title').textContent = scene.title;
   $('#scene-ref').textContent = scene.ref;
   $('#scene-context').textContent = scene.context;
@@ -53,26 +51,37 @@ function makeNext(index,i) {
     details.append(reference);
   }
   details.addEventListener('toggle',() => {
+    // Ignore queued toggle events from a previously selected account.
+    if (!details.isConnected || activeScene !== index) return;
+    opened[index][i] = details.open;
     if (details.open && progress[index] === i && i < 2) {
       progress[index]++;
       $('#reveals').append(makeNext(index,i + 1));
     }
   });
+  details.open = opened[index][i];
   return details;
 }
-buttons.forEach((button,i) => button.addEventListener('click',() => renderScene(i)));
-renderScene(0);
-document.querySelectorAll('[name="mode"]').forEach(input => input.addEventListener('change',() => {
-  const deep = input.value === 'deep';
-  document.querySelectorAll('.deep-content').forEach(element => element.hidden = !deep);
-  $('#mode-summary').textContent = deep ? 'YOUR PATH · ABOUT 45–60 MINUTES' : 'YOUR PATH · ABOUT 15 MINUTES';
-}));
+buttons.forEach(button => button.addEventListener('click',() => renderScene(Number(button.dataset.scene))));
+renderScene(1);
+$('#finished').hidden = true;
+function revealDestination(hash) {
+  if (hash === '#finished' || hash === '#more') $('#finished').hidden = false;
+  if (hash === '#more') $('#more').hidden = false;
+}
+// Reveal before native anchor navigation so focus, history and scrolling stay native.
+document.querySelectorAll('a[href="#finished"], a[href="#more"]').forEach(link => {
+  link.addEventListener('click',() => revealDestination(link.hash));
+});
 function orient() {
   const hash = location.hash || '#landing';
+  revealDestination(hash);
   document.querySelectorAll('.chapters a').forEach(link => {
     if (link.hash === hash) link.setAttribute('aria-current','location');
     else link.removeAttribute('aria-current');
   });
+  if (hash === '#finished') $('#finished-title').focus({preventScroll:true});
+  if (hash === '#more') $('#more-title').focus({preventScroll:true});
 }
 window.addEventListener('hashchange',orient);
 orient();

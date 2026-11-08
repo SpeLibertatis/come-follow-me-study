@@ -1,6 +1,16 @@
 # Repository style standard
 
-Version 1.0 · Owner-approved direction · November 7, 2026
+Version 1.1 · Personal-study refinement · November 8, 2026
+
+## Personal-study refinement
+
+The current main experience serves ages 13–15 studying independently. Its primary job is a complete, approximately five-minute Daniel 3 study: Understand → Read → Notice → Try. The furnace remains the subject throughout. Completion never requires a written reflection, a quiz or opened commentary. Additional accounts and longer passages are optional after the finish point.
+
+Keep the original gateway artwork and existing palette. Use expressive Georgia for the title and scripture, with Arial for instructions and controls. The main page now consumes the canonical `design/tokens.css` directly. The hero token is `clamp(3.75rem, 7vw, 6rem)`; the section-heading token is `clamp(2rem, 3.5vw, 2.75rem)`. Use a centered 700px reading measure instead of the wide section-number rail. On phones, start-study action and time estimate take priority over illustration scale. This refinement supersedes the larger typography, rail layout and Essential/Deep Study selector described in the v1 reference below; the prototype remains archived.
+
+Use at least 14px for supporting privacy and source text, 16px for body/controls and 44px interactive targets. Exports sit behind “Keep my reflection”; Finish study remains available independently. Preserve progress in optional accounts during the current page session. No persistence, automatic sharing or gamification.
+
+Daniel 3:17–18 is reproduced from the historic King James text (public domain in the US), with chapter/verse attribution and an official source link. The wording was checked against the linked text; no Church annotations or edition-specific footnotes are reproduced. Story summaries and interpretation remain explicitly distinguished from scripture.
 
 The Daniel visual exploration is the visual foundation for new and substantially redesigned study experiences in this repository. This standard adopts its cinematic artwork, editorial reading surfaces, and deliberate discovery interactions. It does not authorize merging, deployment, or a wholesale restyling of the existing A/B pages.
 
