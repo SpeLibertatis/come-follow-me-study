@@ -1,0 +1,99 @@
+{
+  "checked": "2026-11-08",
+  "results": [
+    {
+      "url": "https://doi.org/10.1080/10226486.2005.11745749",
+      "status": 403,
+      "destination": "https://www.tandfonline.com/doi/full/10.1080/10226486.2005.11745749",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://doi.org/10.1093/acrefore/9780199340378.013.152",
+      "status": 403,
+      "destination": "https://academic.oup.com/edited-volume/62249/chapter/551358644",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://doi.org/10.1177/1476993X07084791",
+      "status": 403,
+      "destination": "https://journals.sagepub.com/doi/10.1177/1476993X07084791",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://doi.org/10.2307/25610183",
+      "status": 403,
+      "destination": "https://scholarlypublishingcollective.org/sblpress/jbl/article/128/2/273/179826",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://paultanner.org/English%20HTML/Publ%20Articles/Lit%20Struc%20of%20Dan%20-%20P%20Tanner.pdf",
+      "status": 200,
+      "destination": "https://paultanner.org/English%20HTML/Publ%20Articles/Lit%20Struc%20of%20Dan%20-%20P%20Tanner.pdf",
+      "type": "application/pdf",
+      "sample_bytes": 2048
+    },
+    {
+      "url": "https://www.churchofjesuschrist.org/study/general-conference/2015/10/be-not-afraid-only-believe?lang=eng",
+      "status": 200,
+      "destination": "https://www.churchofjesuschrist.org/study/general-conference/2015/10/be-not-afraid-only-believe?lang=eng",
+      "type": "text/html",
+      "sample_bytes": 2048
+    },
+    {
+      "url": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/46?lang=eng",
+      "status": 200,
+      "destination": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/46?lang=eng",
+      "type": "text/html",
+      "sample_bytes": 2048
+    },
+    {
+      "url": "https://www.churchofjesuschrist.org/study/scriptures/bd/daniel?lang=eng",
+      "status": 200,
+      "destination": "https://www.churchofjesuschrist.org/study/scriptures/bd/daniel?lang=eng",
+      "type": "text/html",
+      "sample_bytes": 2048
+    },
+    {
+      "url": "https://www.churchofjesuschrist.org/study/scriptures/nt/heb/11?lang=eng",
+      "status": 200,
+      "destination": "https://www.churchofjesuschrist.org/study/scriptures/nt/heb/11?lang=eng",
+      "type": "text/html",
+      "sample_bytes": 2048
+    },
+    {
+      "url": "https://www.churchofjesuschrist.org/study/scriptures/ot/dan/1?lang=eng",
+      "status": 200,
+      "destination": "https://www.churchofjesuschrist.org/study/scriptures/ot/dan/1?lang=eng",
+      "type": "text/html",
+      "sample_bytes": 2048
+    },
+    {
+      "url": "https://www.churchofjesuschrist.org/study/scriptures/ot/dan/3?lang=eng",
+      "status": 200,
+      "destination": "https://www.churchofjesuschrist.org/study/scriptures/ot/dan/3?lang=eng",
+      "type": "text/html",
+      "sample_bytes": 2048
+    },
+    {
+      "url": "https://www.churchofjesuschrist.org/study/scriptures/ot/dan/6?lang=eng",
+      "status": 200,
+      "destination": "https://www.churchofjesuschrist.org/study/scriptures/ot/dan/6?lang=eng",
+      "type": "text/html",
+      "sample_bytes": 2048
+    },
+    {
+      "url": "https://www.galaxie.com/article/jets36-4-02",
+      "status": 200,
+      "destination": "https://www.galaxie.com/article/jets36-4-02",
+      "type": "text/html; charset=utf-8",
+      "sample_bytes": 2048
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=4nI5UzicHWw",
+      "status": 200,
+      "destination": "https://www.youtube.com/watch?v=4nI5UzicHWw",
+      "type": "text/html; charset=utf-8",
+      "sample_bytes": 2048
+    }
+  ]
+}

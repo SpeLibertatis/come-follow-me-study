@@ -7,7 +7,9 @@ The existing Daniel edition is available on GitHub Pages. Changes on feature bra
 
 ## Style standard
 
-The approved [repository style standard](STYLE_GUIDE.md) preserves the Daniel prototype's cinematic artwork, ivory reading surfaces and teal discovery sections. The main entry point is an approximately five-minute personal study for ages 13–15: Understand → Read → Notice → Try. Students stay with Daniel 3 throughout, can finish without writing, and can choose extra accounts and deeper readings afterward. The page consumes the shared [design tokens](design/tokens.css). Legacy Adventure and Journal URLs redirect to it. The [original prototype](prototypes/daniel-visual-v1/README.md) remains an archived reference. See the [personal-study verification](design/review/personal-study/README.md). Styling changes do not authorize deployment.
+The approved [repository style standard](STYLE_GUIDE.md) preserves the Daniel prototype's cinematic artwork, ivory reading surfaces and teal discovery sections. The main entry point is an approximately 15-minute journey through Daniel 1, 3, and 6 for ages 13–15, ending in a shared reflection. Students can finish without writing or opening optional material. Each chapter has a deeper-study disclosure. [Explore Further](explore.html) is a separate curated library with six themes, three source categories and Advanced Research notes. The pages consume the shared [design tokens](design/tokens.css). Legacy Adventure and Journal URLs redirect to the study. The [original prototype](prototypes/daniel-visual-v1/README.md) remains archived. See [current verification](design/review/three-chapter/README.md) and [source checks](design/review/three-chapter/SOURCES.md). Styling changes do not authorize deployment.
+
+Run offline checks with `python tests/verify.py`, `node --check study.js`, and `node --check explore.js`. Preview using `python -m http.server 4176 --bind 127.0.0.1`. There are no runtime dependencies or build step.
 
 ## Privacy design
 - No accounts, forms that submit data, databases, analytics, advertising, cookies, or third-party scripts.
