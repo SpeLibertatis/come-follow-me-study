@@ -98,10 +98,15 @@ const server = http.createServer((req,res) => {
       assert.equal(await page.locator('#hero-title').innerText(),'Faith in\nthe fire.');
     }
     ok('Legacy Adventure and Journal URLs redirect to the single Daniel experience.');
-    await page.setViewportSize({width:320,height:844});
-    await page.evaluate(()=>document.documentElement.style.fontSize='200%');
-    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth));
-    ok('320px viewport also reflows at 200% text size.');
+    for (const width of [1440,390]) {
+      await page.setViewportSize({width,height:1000});
+      await page.goto('http://127.0.0.1:4173/index.html');
+      const actual = await page.screenshot({fullPage:true});
+      await page.goto('http://127.0.0.1:4173/prototypes/daniel-visual-v1/index.html');
+      const reference = await page.screenshot({fullPage:true});
+      assert.ok(actual.equals(reference), 'Pixel match at '+width);
+    }
+    ok('Full-page screenshots match the original Daniel v1 pixel-for-pixel at 1440px and 390px.');
     assert.deepEqual(errors,[]); ok('No uncaught browser errors.');
     fs.writeFileSync(path.join(__dirname,'results.json'),JSON.stringify({date:new Date().toISOString(),browser:browser.version(),results},null,2)+'\n');
     console.log(results.join('\n'));
