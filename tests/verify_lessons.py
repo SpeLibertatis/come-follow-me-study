@@ -9,7 +9,7 @@ class Lessons(WordChallenge):
         expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
         links=self.page.locator('.lesson-list h2 a').evaluate_all('(els) => els.map(e => e.getAttribute("href"))')
         self.assertEqual(len(links),7)
-        for path in links[1:]:
+        for path in links[2:]:
             response=self.page.goto(self.url+path)
             self.assertEqual(response.status,200)
             expect(self.page.get_by_role('heading',name='Not ready yet',exact=True)).to_be_visible()
@@ -21,12 +21,32 @@ class Lessons(WordChallenge):
         self.assertFalse(self.errors)
         self.assertTrue(all(u.startswith(self.url) for u in self.requests))
 
+    def test_joel_companion(self):
+        self.page.goto(self.url+'lessons.html')
+        self.page.get_by_role('link',name='Hosea 1–6; 10–14; Joel',exact=True).click()
+        expect(self.page).to_have_title('Joel — I will pour out my spirit upon all flesh')
+        self.page.get_by_role('link',name='Begin the quick path').click()
+        expect(self.page.locator('#quick-title')).to_be_visible()
+        self.assertEqual(self.page.locator('.quick-step').count(),4)
+        self.assertEqual(self.page.locator('.deep-module').count(),4)
+        for disclosure in self.page.locator('.deep-module').all():
+            disclosure.locator('summary').click()
+            self.assertTrue(disclosure.evaluate('(el) => el.open'))
+            disclosure.locator('summary').click()
+        self.assertEqual(self.page.locator('form, input, textarea, iframe, script').count(),0)
+        self.assertNotIn('Teacher source audit',self.page.content())
+        self.page.locator('header .brand').click()
+        expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
+        self.assertTrue(all(u.startswith(self.url) for u in self.requests))
+
     def test_lesson_reflow(self):
         paths=['','lessons.html']+['lessons/'+p.name for p in (Path(__file__).resolve().parents[1]/'lessons').glob('*.html')]
         for width,scale in [(320,1),(421,2),(480,2),(640,2),(1280,1)]:
             self.page.set_viewport_size({'width':width,'height':900})
             for path in paths:
                 self.page.goto(self.url+path)
+                if 'hosea-joel' in path:
+                    self.page.locator('details').evaluate_all('(els)=>els.forEach(e=>e.open=true)')
                 self.page.evaluate('(s)=>document.documentElement.style.fontSize = `${s*100}%`',scale)
                 if path == '' and scale == 2:
                     # This change affects the Daniel masthead, not the existing study layout.
