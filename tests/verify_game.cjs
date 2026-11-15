@@ -8,7 +8,7 @@ const path = require('node:path');
 const { JSDOM } = require('jsdom');
 const root = path.resolve(__dirname, '..');
 function setup(loadScript = true) {
-  const dom = new JSDOM(fs.readFileSync(path.join(root, 'index.html'), 'utf8'), {runScripts: 'outside-only', url: 'https://example.test/'});
+  const dom = new JSDOM(fs.readFileSync(path.join(root, 'daniel.html'), 'utf8'), {runScripts: 'outside-only', url: 'https://example.test/'});
   const {document} = dom.window;
   if (loadScript && fs.existsSync(path.join(root, 'game.js'))) dom.window.eval(fs.readFileSync(path.join(root, 'game.js'), 'utf8'));
   const game = document.querySelector('#daniel-word-challenge');

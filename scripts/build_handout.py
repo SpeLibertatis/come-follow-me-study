@@ -73,7 +73,7 @@ def footer(c,doc):
     c.drawRightString(570,22,f'{doc.page} / 2')
 
 def build():
-    tree=Tree((ROOT/'index.html').read_text(encoding='utf-8')).root
+    tree=Tree((ROOT/'daniel.html').read_text(encoding='utf-8')).root
     story=[]
     qr=QrCodeWidget(URL,barLevel='M',barBorder=4,barWidth=82,barHeight=82)
     drawing=Drawing(82,82); drawing.add(qr)

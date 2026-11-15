@@ -35,9 +35,44 @@ class Lessons(WordChallenge):
             disclosure.locator('summary').click()
         self.assertEqual(self.page.locator('form, input, textarea, iframe, script').count(),0)
         self.assertNotIn('Teacher source audit',self.page.content())
-        self.page.locator('header .brand').click()
+        for link in self.page.locator('#downloads a').all():
+            response=self.page.request.get(link.get_attribute('href').replace('../',self.url))
+            self.assertEqual(response.status,200)
+            self.assertTrue(response.body().startswith(b'%PDF'))
+        self.page.locator('header .site-brand').click()
         expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
         self.assertTrue(all(u.startswith(self.url) for u in self.requests))
+
+    def test_home_and_legacy_routes(self):
+        for path in ['', 'index.html', 'lessons.html']:
+            self.page.goto(self.url+path)
+            expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
+            self.assertEqual(self.page.locator('header').get_by_text('Daniel study').count(),0)
+            self.assertEqual(self.page.locator('link[rel="icon"]').count(),1)
+        for fragment in ['#lions-den','#daniel-3','#reflection']:
+            self.page.goto(self.url+fragment)
+            expect(self.page).to_have_url(self.url+'daniel.html'+fragment)
+        self.page.goto(self.url+'daniel.html')
+        self.page.locator('header .site-brand').click()
+        expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
+
+    def test_design_screenshots(self):
+        import os
+        folder=Path(os.environ.get('DANIEL_SCREENSHOT_DIR','/tmp/cfm-design-screenshots'))
+        folder.mkdir(parents=True,exist_ok=True)
+        for width in [390,1280]:
+            self.page.set_viewport_size({'width':width,'height':900})
+            for name,path in [('collection','index.html'),('joel','lessons/hosea-joel.html')]:
+                self.page.goto(self.url+path)
+                for picture in self.page.locator('img').all():
+                    picture.scroll_into_view_if_needed()
+                    picture.evaluate('(img) => img.decode()')
+                self.page.evaluate('window.scrollTo(0,0)')
+                self.page.screenshot(path=str(folder/f'{name}-{width}.png'),full_page=True)
+                self.page.screenshot(path=str(folder/f'{name}-opening-{width}.png'))
+            self.page.locator('#deep').scroll_into_view_if_needed()
+            self.page.locator('.deep-module summary').first.click()
+            self.page.screenshot(path=str(folder/f'joel-deep-{width}.png'))
 
     def test_lesson_reflow(self):
         paths=['','lessons.html']+['lessons/'+p.name for p in (Path(__file__).resolve().parents[1]/'lessons').glob('*.html')]
@@ -48,11 +83,7 @@ class Lessons(WordChallenge):
                 if 'hosea-joel' in path:
                     self.page.locator('details').evaluate_all('(els)=>els.forEach(e=>e.open=true)')
                 self.page.evaluate('(s)=>document.documentElement.style.fontSize = `${s*100}%`',scale)
-                if path == '' and scale == 2:
-                    # This change affects the Daniel masthead, not the existing study layout.
-                    self.assertTrue(self.page.locator('.masthead').evaluate('(el) => el.scrollWidth <= el.clientWidth'),(path,width,scale))
-                else:
-                    self.assertTrue(self.page.evaluate('document.documentElement.scrollWidth <= innerWidth'),(path,width,scale))
+                self.assertTrue(self.page.evaluate('document.documentElement.scrollWidth <= innerWidth'),(path,width,scale))
         self.page.goto(self.url+'lessons.html')
         self.page.keyboard.press('Tab')
         expect(self.page.locator('.skip')).to_be_focused()

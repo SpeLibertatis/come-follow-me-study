@@ -15,16 +15,16 @@ class Page(HTMLParser):
 
 class Contracts(unittest.TestCase):
     def test_complete_journey_without_library(self):
-        page = Page('index.html')
+        page = Page('daniel.html')
         ids = {a['id'] for _, a in page.tags if 'id' in a}
         self.assertTrue({'daniel-1', 'daniel-3', 'daniel-6', 'reflection', 'finished'} <= ids)
-        text = (ROOT / 'index.html').read_text(encoding='utf-8')
+        text = (ROOT / 'daniel.html').read_text(encoding='utf-8')
         self.assertIn('15-minute', text)
         self.assertEqual(text.count('class="deep-study"'), 3)
         self.assertNotIn('data-scene=', text)
 
     def test_external_links_and_assets(self):
-        for name in ['index.html', 'explore.html']:
+        for name in ['daniel.html', 'explore.html']:
             page = Page(name)
             ids = [a['id'] for _, a in page.tags if 'id' in a]
             self.assertEqual(len(ids), len(set(ids)), name)
