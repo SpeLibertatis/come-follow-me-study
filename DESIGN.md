@@ -20,3 +20,9 @@ See `design/review/three-chapter/README.md`. Preserve the existing style guide's
 
 ## Optional word challenge
 The lion-marked disclosure near the footer is a separately requested Easter egg, not part of completing the study. Eight clue-based word puzzles use native buttons and a polite status region. No timer, lost lives, score, religious-behavior reward, or persistence. The existing study keeps its quiet, ungated flow. `game.css` owns only this disclosure’s layout and consumes the same runtime tokens. `game.js` owns volatile game state; keyboard letter shortcuts apply only within the open disclosure.
+
+## Year-end collection and Joel companion
+- `lessons.html` is the intended student landing link and brand-navigation destination. The root remains the legacy Daniel study so printed QR codes keep working.
+- `lessons/hosea-joel.html` is a mobile-first Joel 2:28 companion, not a replacement for the official weekly lesson. It has a four-step quick path and four native optional deep modules.
+- Joel uses canonical ivory/teal/gold tokens and Georgia/Arial typography. Its large, quiet promise-led opening replaces Babylon imagery; no new animation or game. `joel.css` styles only this companion.
+- No personal input, account, tracking, persistence, remote embeds or JavaScript. Responses stay in students’ own notebooks. Church sources are primary; optional Scripture Central commentary is labeled nonofficial.
