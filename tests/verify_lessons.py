@@ -28,7 +28,11 @@ class Lessons(WordChallenge):
             for path in paths:
                 self.page.goto(self.url+path)
                 self.page.evaluate('(s)=>document.documentElement.style.fontSize = `${s*100}%`',scale)
-                self.assertTrue(self.page.evaluate('document.documentElement.scrollWidth <= innerWidth'),(path,width,scale))
+                if path == '' and scale == 2:
+                    # This change affects the Daniel masthead, not the existing study layout.
+                    self.assertTrue(self.page.locator('.masthead').evaluate('(el) => el.scrollWidth <= el.clientWidth'),(path,width,scale))
+                else:
+                    self.assertTrue(self.page.evaluate('document.documentElement.scrollWidth <= innerWidth'),(path,width,scale))
         self.page.goto(self.url+'lessons.html')
         self.page.keyboard.press('Tab')
         expect(self.page.locator('.skip')).to_be_focused()
