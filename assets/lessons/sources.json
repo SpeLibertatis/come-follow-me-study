@@ -1,0 +1,188 @@
+{
+  "checked": "2026-11-14",
+  "selection": "The heading marked by the seminary icon in each official 2026 lesson, not the weekly title or Ideas for Teaching Children.",
+  "images": [
+    {
+      "key": "daniel",
+      "download": "https://www.churchofjesuschrist.org/imgs/850c3faf9ed39b2193c9280a929f73469094982c/full/1920,/0/default?download=true",
+      "ipCode": "CODE_0",
+      "variants": [
+        {
+          "file": "daniel-320.webp",
+          "width": 320,
+          "height": 245,
+          "bytes": 16822
+        },
+        {
+          "file": "daniel-640.webp",
+          "width": 640,
+          "height": 490,
+          "bytes": 63092
+        }
+      ],
+      "principle": "I can trust in the Lord when my faith is tried.",
+      "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/46?lang=eng",
+      "source": "https://www.churchofjesuschrist.org/media/image/daniel-in-the-lions-den-850c3fa?lang=eng",
+      "title": "Daniel in the Lions’ Den",
+      "artist": "Clark Kelley Price",
+      "alt": "Daniel stands unharmed among lions, looking toward the opening of the den.",
+      "connection": "Daniel kept praying when his faith was tested. Daniel 6."
+    },
+    {
+      "key": "joel",
+      "download": "https://www.churchofjesuschrist.org/imgs/5f68ab3ebd717592dce9ee3819123a44f1853e1e/full/,1280/0/default?download=true",
+      "ipCode": "CODE_0",
+      "variants": [
+        {
+          "file": "joel-320.webp",
+          "width": 320,
+          "height": 456,
+          "bytes": 18764
+        },
+        {
+          "file": "joel-640.webp",
+          "width": 640,
+          "height": 912,
+          "bytes": 52910
+        }
+      ],
+      "principle": "“I will pour out my spirit upon all flesh.”",
+      "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/47?lang=eng",
+      "source": "https://www.churchofjesuschrist.org/media/image/angel-moroni-appears-to-joseph-5f68ab3?lang=eng",
+      "title": "Moroni Appears to Joseph Smith in His Room",
+      "artist": "Tom Lovell",
+      "alt": "Moroni appears to Joseph Smith, who sits up in bed to listen.",
+      "connection": "Moroni quoted Joel’s promise of the Spirit to Joseph Smith. Joseph Smith—History 1:41."
+    },
+    {
+      "key": "amos",
+      "download": "https://www.churchofjesuschrist.org/imgs/1717b4abbd9b0264497cd9a7e8b1446193e75f69/full/1920,/0/default?download=true",
+      "ipCode": "CODE_0",
+      "variants": [
+        {
+          "file": "amos-320.webp",
+          "width": 320,
+          "height": 257,
+          "bytes": 16034
+        },
+        {
+          "file": "amos-640.webp",
+          "width": 640,
+          "height": 514,
+          "bytes": 70094
+        }
+      ],
+      "principle": "The Lord reveals truth through His prophets.",
+      "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/48?lang=eng",
+      "source": "https://www.churchofjesuschrist.org/media/image/moses-ten-commandments-1717b4a?lang=eng",
+      "title": "Moses and the Tablets",
+      "artist": "Jerry Harston",
+      "alt": "Moses holds the stone tablets of the commandments and a staff.",
+      "connection": "Moses is one example of God revealing truth through a prophet. Amos 3:7; Exodus 19–20."
+    },
+    {
+      "key": "habakkuk",
+      "download": "https://www.churchofjesuschrist.org/imgs/5c4cb06e9147af91efbb1caa77a03dcc2375e29d/full/,1280/0/default?download=true",
+      "ipCode": "CODE_0",
+      "variants": [
+        {
+          "file": "habakkuk-320.webp",
+          "width": 320,
+          "height": 481,
+          "bytes": 27112
+        },
+        {
+          "file": "habakkuk-640.webp",
+          "width": 640,
+          "height": 963,
+          "bytes": 92366
+        }
+      ],
+      "principle": "I can trust the Lord’s will and His timing.",
+      "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/49?lang=eng",
+      "source": "https://www.churchofjesuschrist.org/media/image/jesus-calms-the-storm-5c4cb06?lang=eng",
+      "title": "Stilling the Storm",
+      "artist": "Ted Henninger",
+      "alt": "Jesus stands in a boat with His disciples amid stormy waves.",
+      "connection": "The disciples’ question in the storm invites us to trust the Lord. Mark 4:37–38; Habakkuk 2:3–4."
+    },
+    {
+      "key": "haggai",
+      "download": "https://www.churchofjesuschrist.org/imgs/4615cf70d99a702222b697c6e0449f4d4c6de1bf/full/1920,/0/default?download=true",
+      "ipCode": "CODE_9",
+      "variants": [
+        {
+          "file": "haggai-320.webp",
+          "width": 320,
+          "height": 213,
+          "bytes": 11602
+        },
+        {
+          "file": "haggai-640.webp",
+          "width": 640,
+          "height": 427,
+          "bytes": 34204
+        }
+      ],
+      "principle": "“Consider your ways.”",
+      "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/50?lang=eng",
+      "source": "https://www.churchofjesuschrist.org/media/image/provo-city-center-temple-4615cf7?lang=eng",
+      "title": "Provo City Center Temple",
+      "artist": null,
+      "alt": "Three spires of the Provo City Center Temple rise against a blue sky.",
+      "connection": "Making room for the Lord’s house helps us consider our priorities. Haggai 1:5–8."
+    },
+    {
+      "key": "malachi",
+      "download": "https://www.churchofjesuschrist.org/imgs/25a7f907736d8a8d8715ada9f3242e35b70acca0/full/,1280/0/default?download=true",
+      "ipCode": "CODE_0",
+      "variants": [
+        {
+          "file": "malachi-320.webp",
+          "width": 320,
+          "height": 513,
+          "bytes": 23008
+        },
+        {
+          "file": "malachi-640.webp",
+          "width": 640,
+          "height": 1025,
+          "bytes": 73746
+        }
+      ],
+      "principle": "The Lord opens the windows of heaven as I show my faith by paying tithing.",
+      "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/51?lang=eng",
+      "source": "https://www.churchofjesuschrist.org/media/image/tithing-lds-25a7f90?lang=eng",
+      "title": "Payment of Tithing",
+      "artist": "Steve Bunderson",
+      "alt": "A girl gives a tithing envelope to a bishop while her family stands beside her.",
+      "connection": "Tithing is an act of faith in the Lord and His promises. Malachi 3:8–12."
+    },
+    {
+      "key": "christmas",
+      "download": "https://www.churchofjesuschrist.org/imgs/f006e0d3d631489e8ce36fecbb6cce231f9ff850/full/,1280/0/default?download=true",
+      "ipCode": "CODE_0",
+      "variants": [
+        {
+          "file": "christmas-320.webp",
+          "width": 320,
+          "height": 416,
+          "bytes": 35558
+        },
+        {
+          "file": "christmas-640.webp",
+          "width": 640,
+          "height": 832,
+          "bytes": 158556
+        }
+      ],
+      "principle": "I rejoice in my Redeemer.",
+      "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/52?lang=eng",
+      "source": "https://www.churchofjesuschrist.org/media/image/mary-joseph-with-baby-jesus-f006e0d?lang=eng",
+      "title": "The Nativity",
+      "artist": "Ted Henninger",
+      "alt": "Mary and Joseph look lovingly at the infant Jesus lying in a manger.",
+      "connection": "The birth of Jesus Christ brings joy and hope of redemption. Isaiah 25:8–9; Luke 2."
+    }
+  ]
+}
