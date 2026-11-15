@@ -64,7 +64,12 @@ class Lessons(WordChallenge):
             self.page.set_viewport_size({'width':width,'height':900})
             for name,path in [('collection','index.html'),('joel','lessons/hosea-joel.html')]:
                 self.page.goto(self.url+path)
+                for picture in self.page.locator('img').all():
+                    picture.scroll_into_view_if_needed()
+                    picture.evaluate('(img) => img.decode()')
+                self.page.evaluate('window.scrollTo(0,0)')
                 self.page.screenshot(path=str(folder/f'{name}-{width}.png'),full_page=True)
+                self.page.screenshot(path=str(folder/f'{name}-opening-{width}.png'))
             self.page.locator('#deep').scroll_into_view_if_needed()
             self.page.locator('.deep-module summary').first.click()
             self.page.screenshot(path=str(folder/f'joel-deep-{width}.png'))
