@@ -76,6 +76,8 @@ class Lessons(WordChallenge):
                 self.page.evaluate('window.scrollTo(0,0)')
                 self.page.screenshot(path=str(folder/f'{name}-{width}.png'),full_page=True)
                 self.page.screenshot(path=str(folder/f'{name}-opening-{width}.png'))
+            self.page.goto(self.url+'lessons/hosea-joel.html#jesus')
+            self.page.screenshot(path=str(folder/f'joel-discovery-{width}.png'))
             self.page.goto(self.url+'lessons/hosea-joel.html#complete')
             self.page.screenshot(path=str(folder/f'joel-complete-{width}.png'))
             self.page.locator('.practice-choices summary').first.click()
