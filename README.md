@@ -40,3 +40,9 @@ Near the bottom of the study, tap the small lion and “A quiet lion is hiding h
 Development-only interaction tests: install `jsdom@26.1.0` outside the site (`npm install --prefix /tmp/daniel-game-test --cache /tmp/daniel-npm-cache jsdom@26.1.0`), then run `NODE_PATH=/tmp/daniel-game-test/node_modules node --test tests/verify_game.cjs`. Also run `node --check game.js`. The optional Chromium browser suite is `python tests/verify_game.py`; it needs Python Playwright and a supported local Chromium installation. These test dependencies are never served to students.
 
 The GitHub Actions verification workflow runs the same checks plus real Chromium interactions, narrow-screen layout, enlarged text, and screenshot capture. Run `npm ci --prefix tests` then `npm test --prefix tests` for the pinned DOM-test setup. Set `CHROME_PATH` if Chromium is installed elsewhere. No workflow has write permissions to the repository.
+
+## Lesson calendar
+
+[All lessons](lessons.html) lists Daniel and the six remaining official 2026 weeks, ending with Christmas (December 21–27). Future lessons have stable static placeholder URLs in `lessons/`, clear “Not ready yet” labels, and links to the corresponding official manual lessons. Replace each placeholder in place when its reviewed student guide is published. No new study content or games are included in this calendar update. The Daniel entry URL and printed QR destination remain unchanged.
+
+Run `python tests/verify_lessons.py` for browser checks of all placeholder/back links, privacy, keyboard skip navigation, and reflow at narrow widths and 200% text. It uses the same development-only Playwright setup as the game tests. Calendar titles/dates were checked against official 2026 manual chapters 47–52 on November 15, 2026.

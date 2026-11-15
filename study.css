@@ -12,7 +12,7 @@ button,a,summary,textarea { touch-action: manipulation; }
 [hidden] { display: none !important; }
 .skip { position: fixed; left: 1rem; top: -10rem; z-index: 10; background: var(--cfm-color-paper); padding: .75rem; }
 .skip:focus { top: 1rem; }
-.masthead { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; padding: 1.25rem max(1.5rem,calc((100% - 1200px)/2)); }
+.masthead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem; padding: 1.25rem max(1.5rem,calc((100% - 1200px)/2)); }
 .brand { font-size: .875rem; letter-spacing: .12em; font-weight: bold; text-decoration: none; }
 .brand span { display: block; margin-top: .25rem; font-size: .6875rem; letter-spacing: .12em; font-weight: normal; }
 .edition { font-size: .75rem; letter-spacing: .08em; }
