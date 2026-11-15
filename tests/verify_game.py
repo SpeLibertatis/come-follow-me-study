@@ -34,7 +34,7 @@ class WordChallenge(unittest.TestCase):
         self.errors, self.requests = [], []
         self.page.on('pageerror', lambda e: self.errors.append(str(e)))
         self.page.on('request', lambda r: self.requests.append(r.url))
-        self.page.goto(self.url)
+        self.page.goto(self.url+"daniel.html")
         self.game = self.page.locator('#daniel-word-challenge')
 
     def tearDown(self):

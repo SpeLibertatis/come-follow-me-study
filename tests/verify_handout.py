@@ -20,7 +20,7 @@ class Handout(unittest.TestCase):
             self.assertEqual(tuple(p.mediabox),(0,0,612,792))
 
     def test_both_pages_offer_local_pdf(self):
-        for name in ['index.html','explore.html']:
+        for name in ['daniel.html','explore.html']:
             self.assertIn('href="handouts/daniel-student-handout.pdf"',(ROOT/name).read_text(encoding='utf-8'))
 
 class ExploreCompanion(unittest.TestCase):
@@ -46,7 +46,7 @@ class ExploreCompanion(unittest.TestCase):
         self.assertIn(URL+'explore.html',urls)
         self.assertIn('What remains uncertain',text)
         self.assertFalse(pdf.get_fields())
-        for name in ['index.html','explore.html']:
+        for name in ['daniel.html','explore.html']:
             self.assertIn('href="handouts/daniel-explore-further.pdf"',(ROOT/name).read_text(encoding='utf-8'))
 
 if __name__=='__main__': unittest.main()
