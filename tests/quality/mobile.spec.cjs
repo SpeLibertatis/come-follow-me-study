@@ -32,11 +32,15 @@ test('small-screen collection, ready studies and print routes', async ({ page })
 
 test('current narrative quick path and native disclosure work by touch', async ({ page }) => {
   await page.goto('/lessons/amos-obadiah-jonah.html');
-  await page.getByRole('link', { name: /Begin the quick path/ }).tap();
+  const quick = page.getByRole('link').and(page.locator('.hero-actions a[href="#quick"]'));
+  await expect(quick).toHaveAccessibleName(/quick/i);
+  await quick.tap();
   await expect(page).toHaveURL(/#quick$/);
   const disclosure = page.locator('#quick details').first();
   await disclosure.locator('summary').tap();
   await expect(disclosure).toHaveJSProperty('open', true);
-  await page.getByRole('link', { name: 'Print & keep', exact: true }).tap();
+  const print = page.getByRole('link').and(page.locator('main nav a[href="#downloads"]'));
+  await expect(print).toHaveAccessibleName(/print/i);
+  await print.tap();
   await expect(page).toHaveURL(/#downloads$/);
 });
