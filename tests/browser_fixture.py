@@ -37,4 +37,3 @@ class BrowserCase(unittest.TestCase):
 
     def tearDown(self):
         self.page.close()
-
