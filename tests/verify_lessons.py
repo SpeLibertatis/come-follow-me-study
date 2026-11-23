@@ -44,8 +44,10 @@ class Lessons(BrowserCase):
                 href = action.get_attribute('href')
                 archive = page.locator('.lesson-list > li')
                 expect(archive.first.locator('h2 a')).to_have_attribute('href', href)
-                remaining_weeks = archive.evaluate_all("(cards) => cards.slice(1).map(card => card.dataset.weekStart)")
-                self.assertEqual(remaining_weeks, sorted(remaining_weeks, reverse=True))
+                state_and_dates = archive.evaluate_all("""cards => cards.map(card => [
+                    card.querySelector('.status').classList.contains('ready'), card.dataset.weekStart
+                ])""")
+                self.assertEqual(state_and_dates, sorted(state_and_dates, reverse=True))
                 destination_card = page.locator(f'.lesson-list a[href="{href}"]').locator('xpath=ancestor::li')
                 expect(destination_card.locator('.status')).to_have_text('Ready to study')
                 action.click()

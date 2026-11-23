@@ -98,10 +98,10 @@ class Routes(unittest.TestCase):
             return [card['route'] for card in generator.CollectionCards(doc).cards]
 
         self.assertEqual(order(generator.render(fixture)),
-                         ['lessons/new.html', 'lessons/future.html', 'lessons/old.html'])
+                         ['lessons/new.html', 'lessons/old.html', 'lessons/future.html'])
         reversed_fixture = fixture.replace('2030-01-27', '2030-02-17')
         self.assertEqual(order(generator.render(reversed_fixture)),
-                         ['lessons/old.html', 'lessons/future.html', 'lessons/new.html'])
+                         ['lessons/old.html', 'lessons/new.html', 'lessons/future.html'])
         self.assertEqual(order(generator.render(fixture.replace('class="status ready"', 'class="status"'))),
                          ['lessons/future.html', 'lessons/new.html', 'lessons/old.html'])
         self.assertEqual(generator.render(generator.render(fixture)), generator.render(fixture))
