@@ -2,6 +2,7 @@ name: Verify study and word challenge
 
 on:
   pull_request:
+  workflow_dispatch:
   push:
     branches: [main]
 
@@ -29,14 +30,18 @@ jobs:
         run: |
           python tests/verify.py
           python tests/verify_routes.py
+          python tests/verify_student_artifact.py
           python tests/verify_handout.py
           python tests/verify_amos_release.py
           node --check study.js
           node --check explore.js
           node --check game.js
           npm test --prefix tests
+      - name: Package the reviewed student site
+        run: python scripts/build_student_site.py --output "$RUNNER_TEMP/student-site"
       - name: Verify Chromium interactions and responsive layout
         env:
+          STUDENT_SITE_ROOT: ${{ runner.temp }}/student-site
           CHROME_PATH: /usr/bin/google-chrome
           DANIEL_SCREENSHOT_DIR: /tmp/daniel-game-screenshots
         run: |
@@ -50,3 +55,48 @@ jobs:
           path: /tmp/daniel-game-screenshots
           if-no-files-found: ignore
           retention-days: 7
+
+      - name: Upload verified student site
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: ${{ runner.temp }}/student-site
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: student-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.release.outputs.page_url }}
+    steps:
+      - name: Check Pages publishing source
+        id: pages-source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          type=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq .build_type)
+          case "$type" in
+            workflow)
+              current=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq .object.sha)
+              if [ "$current" = "$GITHUB_SHA" ]; then
+                echo 'active=true' >> "$GITHUB_OUTPUT"
+              else
+                echo 'Skipping an older verification run; main has advanced.'
+              fi
+              ;;
+            legacy) echo 'Pages still uses branch publishing; no source was changed.' ;;
+            *) echo "Unexpected Pages publishing mode: $type"; exit 1 ;;
+          esac
+      - name: Deploy verified student site
+        id: release
+        if: steps.pages-source.outputs.active == 'true'
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

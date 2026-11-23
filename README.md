@@ -36,3 +36,21 @@ The site does not request accounts, collect personal reflections, run analytics,
 5. Verify the feature PR checks and review the content before merging. After GitHub Pages deploys, check the live collection, lesson, and student downloads.
 
 The original Daniel visual prototype remains available as a [design archive](prototypes/daniel-visual-v1/README.md).
+
+## Student-only Pages deployment
+
+[The explicit manifest](deploy/student-files.txt) lists the files served by GitHub Pages. When a lesson adds a local image, stylesheet, PDF, or page, add its path to the manifest. The student privacy notice stays on the deployed site. Repository documentation, tests, generators, design reviews, and the archived prototype are not deployed; they remain available in the public GitHub repository.
+
+To inspect the same artifact locally:
+
+```sh
+python tests/verify_student_artifact.py
+python scripts/build_student_site.py --output /tmp/cfm-student-site
+python -m http.server 4176 --directory /tmp/cfm-student-site --bind 127.0.0.1
+```
+
+Use a new output directory each time. CI runs the browser suites against that output, not the full repository. A successful main workflow can deploy to the existing GitHub Pages URL only when the repository uses the GitHub Actions publishing source; feature PRs never upload a deployable Pages artifact.
+
+**First cutover:** after the verified workflow is merged, change **Settings → Pages → Build and deployment → Source** to **GitHub Actions**. In **Actions → Verify study and word challenge**, choose **Run workflow** on `main`. Check both collection URLs, the legacy redirects, published lessons, linked handouts and privacy notice. Confirm representative repository-only URLs such as `/tests/verify.py` no longer resolve on the site. The GitHub repository itself stays public.
+
+**Rollback:** if a release fails and needs urgent reversal, choose **Deploy from a branch → main → /(root)** in Pages settings and verify the live site. This temporarily restores the full branch-published site, including repository-only paths. To keep the student-only boundary during a routine rollback, revert the faulty change while leaving **GitHub Actions** as the source.
