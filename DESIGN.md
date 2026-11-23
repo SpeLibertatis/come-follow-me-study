@@ -35,3 +35,5 @@ Joel uses an original symbolic rain/fields SVG, a cinematic promise-led opening,
 Header owner: `site.css`, icon + independent study identity + All lessons. Page-specific study-path navigation stays separate. Collection owner: `collection.css` over existing `lessons.css`; Joel owner: `joel.css`.
 
 Candidate template boundaries: shared identity, path selector, read/notice/try sections, optional resources, downloads and mobile behavior. These are proposed patterns, not an approved final template. Do not propagate the Joel redesign to Daniel or future lessons until the user approves the candidate.
+
+On the public collection, show the latest published study before the archive. Derive it from dated ready cards at authoring time so either collection URL works without JavaScript. Published studies share **Quick study / Go deeper / Print** link labels without flattening the distinct lesson designs. Link out for optional context; put the essential reading or a clearly labeled paraphrase in the quick path.

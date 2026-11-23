@@ -116,3 +116,7 @@ a:hover,summary:hover { text-decoration: underline; }
 a:active,summary:active { text-decoration-thickness: 2px; }
 @media(forced-colors:active) { * { scrollbar-color: auto; } }
 @media(max-width:420px) { .masthead { align-items: flex-start; flex-direction: column; gap: .5rem; } .masthead .text-link { margin-top: 0; } }
+
+.hero .study-path{display:flex;flex-wrap:wrap;gap:.375rem 1rem;margin:1.25rem 0}
+.hero .study-path a{display:inline-flex;align-items:center;min-height:44px;color:inherit}
+@media print{.hero .study-path{display:none}}

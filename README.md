@@ -30,7 +30,7 @@ The site does not request accounts, collect personal reflections, run analytics,
 ## Verify and update a lesson
 
 1. Preview locally with `python -m http.server 4176 --bind 127.0.0.1`, then open `http://127.0.0.1:4176/lessons.html`. Python and browser dependencies are for development and CI only.
-2. Edit the lesson at its existing route. For a newly published lesson, update its card in both collection files. Keep official references, alternate paths, and linked print editions aligned.
+2. Edit the lesson at its existing route. For a newly published lesson, update its card in `index.html`, include the ISO week-start date on `data-week-start`, and run `python scripts/update_collection.py` to refresh the latest published link and synchronize `lessons.html`. Keep official references, alternate paths, and linked print editions aligned.
 3. Run `python tests/verify.py`, `python tests/verify_routes.py`, and `python tests/verify_amos_release.py`. For the PDF suite, install the test dependencies listed in the [CI workflow](.github/workflows/verify-study.yml) and run `python tests/verify_handout.py`.
 4. Use `npm ci --prefix tests --ignore-scripts` and `npm test --prefix tests` for the JavaScript interaction suite. With Python Playwright and a supported Chromium binary, set `CHROME_PATH` as needed and run `python tests/verify_game.py` and `python tests/verify_lessons.py`. Review the actual phone and print layouts too.
 5. Verify the feature PR checks and review the content before merging. After GitHub Pages deploys, check the live collection, lesson, and student downloads.
