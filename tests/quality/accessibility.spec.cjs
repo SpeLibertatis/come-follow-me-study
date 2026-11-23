@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
-const { appendFileSync } = require('node:fs');
+const { appendFileSync, mkdirSync, writeFileSync } = require('node:fs');
+const { dirname } = require('node:path');
 
 const routes = [
   ['Collection', '/'],
@@ -34,14 +35,14 @@ test('report verified axe findings separately from items needing review', async 
         .analyze();
       const ids = items => items.map(item => item.id).join(', ') || 'none';
       rows.push(`| ${name} | ${result.violations.length}: ${ids(result.violations)} | ${result.incomplete.length}: ${ids(result.incomplete)} |`);
-      await info.attach(name, {
-        contentType: 'application/json',
-        body: JSON.stringify({
-          url: result.url,
-          violations: result.violations,
-          incomplete: result.incomplete,
-        }, null, 2),
-      });
+      const reportFile = info.outputPath(`axe-${name.toLowerCase().replace(/[^a-z]+/g, '-').replace(/-$/, '')}.json`);
+      mkdirSync(dirname(reportFile), { recursive: true });
+      writeFileSync(reportFile, JSON.stringify({
+        url: result.url,
+        violations: result.violations,
+        incomplete: result.incomplete,
+      }, null, 2));
+
       console.log(rows.at(-1));
     });
   }
