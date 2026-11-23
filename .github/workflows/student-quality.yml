@@ -1,0 +1,38 @@
+name: Student browser and accessibility smoke
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version: '24.11.1'
+          package-manager-cache: false
+      - name: Install locked test dependencies
+        working-directory: tests/quality
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install Playwright browsers
+        working-directory: tests/quality
+        run: ./node_modules/.bin/playwright install --with-deps chromium webkit
+      - name: Run WebKit functional checks and report axe findings
+        working-directory: tests/quality
+        run: npm test
+      - name: Keep axe details
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: student-axe-details
+          path: tests/quality/test-results/**/attachments/*.json
+          if-no-files-found: ignore
+          retention-days: 7

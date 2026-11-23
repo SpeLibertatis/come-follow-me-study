@@ -1,0 +1,36 @@
+name: Weekly external student link report
+
+on:
+  schedule:
+    - cron: '23 15 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  external-links:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Check published HTML references (report only)
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        continue-on-error: true
+        with:
+          lycheeVersion: v0.24.2
+          token: ''
+          fail: false
+          jobSummary: true
+          checkbox: false
+          args: >-
+            --no-progress --exclude-all-private --scheme http --scheme https
+            --exclude '^https?://spelibertatis\.github\.io/come-follow-me-study(?:/|$)'
+            --timeout 15 --max-retries 2 --max-concurrency 4
+            './*.html' './lessons/*.html'
+      - name: Explain the limits
+        if: always()
+        run: |
+          printf '\n%s\n' 'HTTP 403/429 and timeouts can reflect access limits; verify before removing a reference. This scheduled/manual report does not gate PRs or Pages releases. PDF links and write-in QR codes are outside this check.' >> "$GITHUB_STEP_SUMMARY"
