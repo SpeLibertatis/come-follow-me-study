@@ -49,7 +49,7 @@ python scripts/build_student_site.py --output /tmp/cfm-student-site
 python -m http.server 4176 --directory /tmp/cfm-student-site --bind 127.0.0.1
 ```
 
-Use a new output directory each time. CI runs the browser suites against that output, not the full repository. A successful main workflow can deploy to the existing GitHub Pages URL only when the repository uses the GitHub Actions publishing source; feature PRs never upload a deployable Pages artifact.
+Use a new output directory each time. CI runs the browser suites against that output, not the full repository. A successful main workflow can deploy to the existing GitHub Pages URL only when the repository uses the GitHub Actions publishing source; feature PRs never upload a deployable Pages artifact. After deployment, a read-only smoke job checks the public student URLs, file types, source bytes, and representative exclusions.
 
 **First cutover:** after the verified workflow is merged, change **Settings → Pages → Build and deployment → Source** to **GitHub Actions**. In **Actions → Verify study and word challenge**, choose **Run workflow** on `main`. Check both collection URLs, the legacy redirects, published lessons, linked handouts and privacy notice. Confirm representative repository-only URLs such as `/tests/verify.py` no longer resolve on the site. The GitHub repository itself stays public.
 
