@@ -1,51 +1,38 @@
-# Come, Follow Me — Supplemental Study Guides
+# Come, Follow Me: Supplemental Study Guides
 
-Privacy-first, unofficial supplemental scripture study experiences for youth. This project is **not affiliated with or endorsed by The Church of Jesus Christ of Latter-day Saints**.
+A privacy-first, mobile-friendly scripture study companion for youth ages 13–15 and their teachers. The site pairs short reading paths with optional deeper study and printable handouts. It is an independent supplement, **not affiliated with or endorsed by The Church of Jesus Christ of Latter-day Saints**.
 
-## Deployment status
-The existing Daniel edition is available on GitHub Pages. Changes on feature branches are not published until reviewed and merged; retain the security and privacy release checks below.
+[Open the live lesson collection](https://spelibertatis.github.io/come-follow-me-study/lessons.html) · [Repository checks](https://github.com/SpeLibertatis/come-follow-me-study/actions)
 
-## Style standard
+## What students can do
 
-The approved [repository style standard](STYLE_GUIDE.md) preserves the Daniel prototype's cinematic artwork, ivory reading surfaces and teal discovery sections. The main entry point is an approximately 15-minute journey through Daniel 1, 3, and 6 for ages 13–15, ending in a shared reflection. Students can finish without writing or opening optional material. Each chapter has a deeper-study disclosure. [Explore Further](explore.html) is a separate curated library with six themes, three source categories and Advanced Research notes. The pages consume the shared [design tokens](design/tokens.css). Legacy Adventure and Journal URLs redirect to the study. The [original prototype](prototypes/daniel-visual-v1/README.md) remains archived. See [current verification](design/review/three-chapter/README.md) and [source checks](design/review/three-chapter/SOURCES.md). Styling changes do not authorize deployment.
+| Start here | Experience |
+| --- | --- |
+| [All lessons](lessons.html) | The reusable QR destination. The homepage presents the same collection. Unpublished lessons link to the official manual. |
+| [Daniel](daniel.html) | Read three stories, reflect privately, or try an optional word challenge. Keep a reflection only by explicitly copying, sharing, or downloading it. |
+| [Daniel: Explore Further](explore.html) | Browse official sources, commentary, and scholarship. Optional theme filters leave the full library readable without JavaScript. |
+| [Hosea and Joel](lessons/hosea-joel.html) | Follow the quick path or open deeper questions about the Lord pouring out His Spirit. |
+| [Amos, Obadiah, and Jonah](lessons/amos-obadiah-jonah.html) | Follow the Amos-centered study and consider how the Lord reveals truth through His prophets. |
 
-Run offline checks with `python tests/verify.py`, `node --check study.js`, and `node --check explore.js`. Preview using `python -m http.server 4176 --bind 127.0.0.1`. There are no runtime dependencies or build step.
+Student PDFs live in [handouts/](handouts/) and are linked from their lessons. The Daniel handouts can be regenerated using the scripts in [scripts/](scripts/); the Joel and Amos PDFs are checked-in student artifacts.
 
-## Privacy design
-- No accounts, forms that submit data, databases, analytics, advertising, cookies, or third-party scripts.
-- No participant names, emails, religious reflections, or identifiers are collected.
-- Reflections, if offered, remain in volatile browser memory and are cleared on reload. No localStorage, sessionStorage, IndexedDB, or service workers.
-- All images, fonts, styles, and scripts are first-party and served from the site.
-- Scripture resources open as external links; those destinations have their own privacy policies.
-- GitHub Pages and network providers may process routine access logs and IP addresses independently of this application.
+## How the site is built
 
-## Security release gate
-Before publishing: inspect all HTML/JS and dependencies; remove external embeds and trackers; enforce restrictive CSP; test both versions on mobile; check accessibility and links; review image rights; verify no participant data leaves the browser; enable HTTPS and repository branch protection.
+- **Static by design.** GitHub Pages serves plain HTML, CSS, JavaScript, WebP illustrations, and PDFs. There is no app server, database, production package install, or runtime build.
+- **Progressive enhancement.** The collection, Daniel, and Explore use small first-party scripts where useful. Joel, Amos, and the placeholder lessons do not require JavaScript. See the [design notes](DESIGN.md) and [style guide](STYLE_GUIDE.md).
+- **Stable entry points.** Keep `lessons.html` and `index.html` in sync. Keep an existing week's URL when replacing a placeholder. `adventure.html`, `journal.html`, and recognized former Daniel hashes are retained for compatibility.
+- **Separate content and art rights.** The [image source and reuse notes](assets/lessons/README.md) describe the Church Media Library assets. Do not assume those rights transfer to other projects.
 
-## Study experience
-The A/B chooser has been replaced by the Daniel study edition. The original visual v1 prototype remains an archived reference. No remote analytics or identifying student feedback are collected.
+## Student privacy and tradeoffs
 
-## Printable student handout
+The site does not request accounts, collect personal reflections, run analytics, or fetch third-party assets on page load. Daniel’s reflection remains in the page until a student explicitly copies, shares, or downloads it; clipboard history, files, and receiving apps can retain those copies. The hosting provider and network intermediaries may process routine access logs. External study links open sites with their own privacy practices. Read the [privacy notice](PRIVACY.md) and [security policy](SECURITY.md).
 
-[Download the two-page student PDF](handouts/daniel-student-handout.pdf). It contains the three essential scripture readings, context, questions, writing space, and a static QR code to the public study URL. Print on Letter paper, or choose Fit for A4; optional double-sided printing uses the long edge. No phone is needed to complete it. The PDF never includes browser reflections and loads only when selected.
+## Verify and update a lesson
 
-To regenerate after changing lesson content, install the development-only `reportlab` package and run `python scripts/build_handout.py`. Install `pypdf` and run `python tests/verify_handout.py` to check the PDF and its page links. Recheck both rendered pages and decode the QR before publishing. These packages are not shipped to students.
+1. Preview locally with `python -m http.server 4176 --bind 127.0.0.1`, then open `http://127.0.0.1:4176/lessons.html`. Python and browser dependencies are for development and CI only.
+2. Edit the lesson at its existing route. For a newly published lesson, update its card in both collection files. Keep official references, alternate paths, and linked print editions aligned.
+3. Run `python tests/verify.py`, `python tests/verify_routes.py`, and `python tests/verify_amos_release.py`. For the PDF suite, install the test dependencies listed in the [CI workflow](.github/workflows/verify-study.yml) and run `python tests/verify_handout.py`.
+4. Use `npm ci --prefix tests --ignore-scripts` and `npm test --prefix tests` for the JavaScript interaction suite. With Python Playwright and a supported Chromium binary, set `CHROME_PATH` as needed and run `python tests/verify_game.py` and `python tests/verify_lessons.py`. Review the actual phone and print layouts too.
+5. Verify the feature PR checks and review the content before merging. After GitHub Pages deploys, check the live collection, lesson, and student downloads.
 
-[Explore Further print companion](handouts/daniel-explore-further.pdf) is a separate, optional six-page library: official sources (pages 1–2), video and theme guide with QR (page 3), scholarship (pages 4–5), and Advanced Research (page 6). Print only the pages you need. It includes all 14 resource introductions, questions, access notes, and readable clickable source links; full external articles and video still require access to their publishers. Regenerate with `python scripts/build_explore_handout.py`; the handout checks cover both PDFs.
-
-## Hidden Daniel word challenge
-
-Near the bottom of the study, tap the small lion and “A quiet lion is hiding here…” to open eight short word puzzles based on Daniel 1, 3, and 6. [Jump to the lion](https://spelibertatis.github.io/come-follow-me-study/#lions-den). Students may guess, reveal a letter, show an answer, or skip freely. The game is optional, with no timer, lost lives, scores, accounts, or saved progress. It never gates lesson completion.
-
-Development-only interaction tests: install `jsdom@26.1.0` outside the site (`npm install --prefix /tmp/daniel-game-test --cache /tmp/daniel-npm-cache jsdom@26.1.0`), then run `NODE_PATH=/tmp/daniel-game-test/node_modules node --test tests/verify_game.cjs`. Also run `node --check game.js`. The optional Chromium browser suite is `python tests/verify_game.py`; it needs Python Playwright and a supported local Chromium installation. These test dependencies are never served to students.
-
-The GitHub Actions verification workflow runs the same checks plus real Chromium interactions, narrow-screen layout, enlarged text, and screenshot capture. Run `npm ci --prefix tests` then `npm test --prefix tests` for the pinned DOM-test setup. Set `CHROME_PATH` if Chromium is installed elsewhere. No workflow has write permissions to the repository.
-
-## Lesson calendar
-
-[All lessons](lessons.html) lists Daniel and the six remaining official 2026 weeks, ending with Christmas (December 21–27). Five future lessons have stable static placeholder URLs in `lessons/`, clear “Not ready yet” labels, and links to the corresponding official manual lessons. Replace each placeholder in place when its reviewed student guide is published. The Hosea and Joel week includes the Joel 2:28 student companion: an eight-minute quick path and four optional five-minute deep modules. No new games are included. The intended student landing link is `lessons.html`; the site identity links there. The Daniel entry URL and printed QR destination remain unchanged.
-
-Run `python tests/verify_lessons.py` for browser checks of all placeholder/back links, privacy, keyboard skip navigation, and reflow at narrow widths and 200% text. It uses the same development-only Playwright setup as the game tests. Calendar titles/dates were checked against official 2026 manual chapters 47–52 on November 15, 2026.
-
-## Candidate collection/Joel design
-The requested homepage is now `index.html` (root), with `lessons.html` as the compatible collection URL. Daniel is at `daniel.html`; recognized old root fragments forward there using a small first-party script. Bare legacy QR codes intentionally open the collection. The candidate visual pattern awaits user review before standardization.
+The original Daniel visual prototype remains available as a [design archive](prototypes/daniel-visual-v1/README.md).

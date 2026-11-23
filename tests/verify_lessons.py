@@ -1,21 +1,34 @@
 """Lesson index and placeholder browser checks; no production dependencies."""
-from verify_game import WordChallenge, expect
+from browser_fixture import BrowserCase, expect
 from pathlib import Path
 import unittest
 
-class Lessons(WordChallenge):
+class Lessons(BrowserCase):
     def test_lesson_navigation(self):
-        self.page.get_by_role('link', name='All lessons', exact=True).click()
+        self.page.goto(self.url + 'lessons.html')
         expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
-        links=self.page.locator('.lesson-list h2 a').evaluate_all('(els) => els.map(e => e.getAttribute("href"))')
-        self.assertEqual(len(links),7)
-        for path in links[3:]:
-            response=self.page.goto(self.url+path)
-            self.assertEqual(response.status,200)
-            expect(self.page.get_by_role('heading',name='Not ready yet',exact=True)).to_be_visible()
-            expect(self.page.get_by_role('link',name='Read the official lesson')).to_have_attribute('rel','noopener noreferrer')
-            self.page.get_by_role('link',name='← Back to all lessons').click()
-            expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
+        cards = self.page.locator('.lesson-list li').evaluate_all("""cards => cards.map(card => ({
+            path: card.querySelector('h2 a').getAttribute('href'),
+            status: card.querySelector('.status').textContent.trim()
+        }))""")
+        self.assertTrue(cards)
+        paths = [card['path'] for card in cards]
+        self.assertEqual(len(paths), len(set(paths)))
+        for card in cards:
+            path, status = card['path'], card['status']
+            with self.subTest(path=path):
+                self.assertIn(status, {'Ready to study', 'Not ready yet'})
+                response = self.page.goto(self.url + path)
+                self.assertEqual(response.status, 200)
+                placeholder = self.page.get_by_role('heading', name='Not ready yet', exact=True)
+                if status == 'Not ready yet':
+                    expect(placeholder).to_be_visible()
+                    expect(self.page.get_by_role('link', name='Read the official lesson')).to_have_attribute('rel', 'noopener noreferrer')
+                    self.page.get_by_role('link', name='← Back to all lessons').click()
+                    expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
+                else:
+                    expect(placeholder).to_have_count(0)
+        self.page.goto(self.url + 'lessons.html')
         self.page.get_by_role('link',name='Daniel 1–7',exact=True).click()
         expect(self.page.locator('#lions-den')).to_have_count(1)
         self.assertFalse(self.errors)
@@ -101,6 +114,16 @@ class Lessons(WordChallenge):
             expect(self.page.locator(link.get_attribute('href'))).to_have_count(1)
         self.assertFalse(self.errors)
         self.assertTrue(all(u.startswith(self.url) for u in self.requests))
+
+    def test_narrative_hero_labels_are_legible_in_print(self):
+        self.page.emulate_media(media='print')
+        for path in ('lessons/hosea-joel.html', 'lessons/amos-obadiah-jonah.html'):
+            with self.subTest(path=path):
+                self.page.goto(self.url + path)
+                hero = self.page.locator('.joel-hero')
+                expect(hero).to_have_css('background-color', 'rgb(255, 255, 255)')
+                for label in hero.locator('.verse-label, .art-caption').all():
+                    expect(label).to_have_css('color', 'rgb(0, 0, 0)')
 
     def test_home_and_legacy_routes(self):
         for path in ['', 'index.html', 'lessons.html']:

@@ -24,7 +24,7 @@ The lion-marked disclosure near the footer is a separately requested Easter egg,
 ## Year-end collection and Joel companion
 - `index.html` and the root are the lesson collection and shared brand destination. `lessons.html` retains the same collection for compatibility. Bare legacy QR codes now intentionally land on the collection; known Daniel fragments forward to `daniel.html`.
 - `lessons/hosea-joel.html` is a mobile-first Joel 2:28 companion, not a replacement for the official weekly lesson. It has a four-step quick path and four native optional deep modules.
-- Joel uses canonical ivory/teal/gold tokens and Georgia/Arial typography. Its large, quiet promise-led opening replaces Babylon imagery; no new animation or game. `joel.css` styles only this companion.
+- Joel uses canonical ivory/teal/gold tokens and Georgia/Arial typography. Its large, quiet promise-led opening replaces Babylon imagery; no new animation or game. `joel.css` supplies the narrative styles shared by Joel and Amos. `amos.css` overrides the Amos-specific artwork and hero treatment.
 - No personal input, account, tracking, persistence, remote embeds or JavaScript. Responses stay in students’ own notebooks. Church sources are primary; optional Scripture Central commentary is labeled nonofficial.
 
 ## November 15 design reevaluation — candidate, pending user review
