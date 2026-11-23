@@ -60,9 +60,9 @@ class CollectionCards(HTMLParser):
             self.card['title'] += text
 
 
-def order_archive(html, cards, latest):
+def order_archive(html, cards):
     # Swap whole cards in place, preserving the surrounding markup and spacing.
-    ordered = sorted(cards, key=lambda card: (card is latest, card['date']), reverse=True)
+    ordered = sorted(cards, key=lambda card: (card['ready'], card['date']), reverse=True)
     parts = []
     previous_end = 0
     for slot, card in zip(cards, ordered):
@@ -80,7 +80,7 @@ def render(html):
         raise ValueError('Archive card dates must be unique')
     ready = [card for card in cards if card['ready']]
     latest = max(ready, key=lambda card: card['date'], default=None)
-    html = order_archive(html, cards, latest)
+    html = order_archive(html, cards)
     start, _, after = html.partition(START)
     _, _, end = after.partition(END)
     output = ''
