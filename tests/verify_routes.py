@@ -1,6 +1,8 @@
 """Validate every canonical student route and the compatibility redirects."""
 from html.parser import HTMLParser
 from pathlib import Path
+import shutil
+from tempfile import TemporaryDirectory
 import importlib.util
 import subprocess
 import sys
@@ -115,6 +117,43 @@ class Routes(unittest.TestCase):
         self.assertIn('Amos 7:12–15 · King James Version', amos)
         self.assertIn('prophesy unto my people Israel', amos)
         self.assertIn('3 Nephi 11:29–30 · Original paraphrase', amos)
+
+    def test_static_study_layout_matches_shared_templates(self):
+        subprocess.run(
+            [sys.executable, str(ROOT / 'scripts/update_study_layout.py'), '--check'],
+            check=True, cwd=ROOT,
+        )
+
+    def test_study_layout_detects_and_repairs_copy_drift(self):
+        routes = ('daniel.html', 'lessons/hosea-joel.html', 'lessons/amos-obadiah-jonah.html')
+        with TemporaryDirectory() as tmp:
+            fixture = Path(tmp)
+            templates = tuple(path.relative_to(ROOT) for path in (ROOT / 'scripts/templates').glob('*.html'))
+            for relative_path in (*routes, 'scripts/update_study_layout.py', *templates):
+                target = fixture / relative_path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(ROOT / relative_path, target)
+            daniel = fixture / routes[0]
+            original = daniel.read_text(encoding='utf-8')
+            amos = fixture / routes[2]
+            original_amos = amos.read_text(encoding='utf-8')
+            amos.write_text(
+                original_amos.replace('>All lessons</a>', '>Archive</a>')
+                .replace('>THE QUICK PATH</p>', '>OPENING</p>')
+                .replace('>Print &amp; keep</h2>', '>Download</h2>')
+                .replace('Independent supplemental study.', 'An independent guide.'),
+                encoding='utf-8',
+            )
+            daniel.write_text(original.replace('>Quick study</a>', '>Start here</a>'), encoding='utf-8')
+            command = [sys.executable, str(fixture / 'scripts/update_study_layout.py')]
+            stale = subprocess.run([*command, '--check'], capture_output=True, text=True)
+            self.assertEqual(stale.returncode, 1)
+            self.assertIn('Study layout is stale: daniel.html, lessons/amos-obadiah-jonah.html', stale.stderr)
+            self.assertIn('>Start here</a>', daniel.read_text(encoding='utf-8'))
+            subprocess.run(command, check=True)
+            self.assertEqual(daniel.read_text(encoding='utf-8'), original)
+            self.assertEqual(amos.read_text(encoding='utf-8'), original_amos)
+            subprocess.run([*command, '--check'], check=True)
 
     def test_student_study_links_use_same_three_shortcut_labels(self):
         for route in ('daniel.html', 'lessons/hosea-joel.html', 'lessons/amos-obadiah-jonah.html'):
