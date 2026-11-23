@@ -7,7 +7,7 @@ import os
 import unittest
 from playwright.sync_api import sync_playwright, expect
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(os.environ.get('STUDENT_SITE_ROOT', Path(__file__).resolve().parents[1])).resolve()
 
 class QuietHandler(SimpleHTTPRequestHandler):
     def log_message(self, *args):
