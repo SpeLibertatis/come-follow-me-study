@@ -1,0 +1,8 @@
+/* Review variant: canonical Joel shell, no shared styles changed. */
+.review-banner{margin:0;max-width:none;background:var(--cfm-color-paper);padding:1rem 1.5rem;text-align:center;font-size:.875rem;border-bottom:1px solid var(--cfm-color-line)}.amos-hero{background:var(--cfm-color-discovery)}.amos-hero::after{display:none}.amos-hero .hero-inner{max-width:1120px;margin:auto;position:relative}.amos-hero h1{max-width:14ch}.amos-hero .verse-label{max-width:35ch;color:var(--cfm-color-gold)}.scenario{border-top:3px solid var(--cfm-color-teal);padding:1rem 0}.scenario>p:first-of-type{font:1.5rem/1.5 var(--cfm-font-editorial)}
+
+
+/* Image-only Amos hero refinement: preserve all existing copy and layout. */
+.amos-picture{position:absolute;inset:0;z-index:-2;display:block;pointer-events:none}.amos-art{width:100%;height:100%;object-fit:cover;object-position:65% 50%;display:block}.amos-hero::after{display:block;background:linear-gradient(90deg,rgba(8,18,29,.91),rgba(8,18,29,.65) 40%,rgba(8,18,29,.04) 76%)}
+@media(max-width:650px){.amos-art{object-position:66% 50%}.amos-hero::after{background:linear-gradient(90deg,rgba(8,18,29,.82),rgba(8,18,29,.62) 65%,rgba(8,18,29,.35))}}
+@media print{.amos-picture{display:none}}
