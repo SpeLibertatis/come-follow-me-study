@@ -28,6 +28,7 @@ jobs:
       - name: Verify content, privacy, handouts, and JavaScript
         run: |
           python tests/verify.py
+          python tests/verify_routes.py
           python tests/verify_handout.py
           python tests/verify_amos_release.py
           node --check study.js
