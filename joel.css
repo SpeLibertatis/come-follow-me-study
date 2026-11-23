@@ -4,5 +4,7 @@ main{max-width:none;padding:0;min-height:0}h1,h2,h3,blockquote{font-family:var(-
 /* Shared narrative labels need dark ink when the hero background prints white. */
 @media print {
   .joel-hero .art-caption,
-  .joel-hero .verse-label { color: #000; }
+  .joel-hero .verse-label,
+  .scene-promise .scene-number,
+  .scene-promise .scripture sup { color: #000; }
 }

@@ -123,7 +123,10 @@ class Lessons(BrowserCase):
                 hero = self.page.locator('.joel-hero')
                 expect(hero).to_have_css('background-color', 'rgb(255, 255, 255)')
                 self.assertEqual(hero.evaluate("el => getComputedStyle(el, '::after').display"), 'none')
-                for label in hero.locator('.verse-label, .art-caption').all():
+                for label in self.page.locator(
+                    '.joel-hero .verse-label, .joel-hero .art-caption, '
+                    '.scene-promise .scene-number, .scene-promise .scripture sup'
+                ).all():
                     expect(label).to_have_css('color', 'rgb(0, 0, 0)')
 
     def test_home_and_legacy_routes(self):
