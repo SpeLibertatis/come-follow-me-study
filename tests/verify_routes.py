@@ -76,10 +76,10 @@ class Routes(unittest.TestCase):
         generator = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(generator)
         fixture = (
-            generator.START + '\n' + generator.END +
+            generator.START + '\n' + generator.END + '<ol class="lesson-list">' +
             '<li data-week-start="2030-02-03"><span class="status ready">Ready to study</span><a href="lessons/new.html">New</a></li>'
             '<li data-week-start="2030-02-10"><span class="status">Not ready yet</span><a href="lessons/future.html">Future</a></li>'
-            '<li data-week-start="2030-01-27"><span class="status ready">Ready to study</span><a href="lessons/old.html">Old</a></li>'
+            '<li data-week-start="2030-01-27"><span class="status ready">Ready to study</span><a href="lessons/old.html">Old</a></li></ol>'
         )
 
         def latest(doc):
@@ -90,6 +90,19 @@ class Routes(unittest.TestCase):
             fragment.feed(region)
             return hrefs
 
+        fixture = fixture.replace('</li><li', '</li>\n <li')
+
+        def order(doc):
+            return [card['route'] for card in generator.CollectionCards(doc).cards]
+
+        self.assertEqual(order(generator.render(fixture)),
+                         ['lessons/new.html', 'lessons/future.html', 'lessons/old.html'])
+        reversed_fixture = fixture.replace('2030-01-27', '2030-02-17')
+        self.assertEqual(order(generator.render(reversed_fixture)),
+                         ['lessons/old.html', 'lessons/future.html', 'lessons/new.html'])
+        self.assertEqual(order(generator.render(fixture.replace('class="status ready"', 'class="status"'))),
+                         ['lessons/future.html', 'lessons/new.html', 'lessons/old.html'])
+        self.assertEqual(generator.render(generator.render(fixture)), generator.render(fixture))
         self.assertEqual(latest(generator.render(fixture)), ['lessons/new.html'])
         self.assertEqual(latest(generator.render(fixture.replace('class="status"', 'class="status ready"'))), ['lessons/future.html'])
         self.assertEqual(latest(generator.render(fixture.replace('class="status ready"', 'class="status"'))), [])
