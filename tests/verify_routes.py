@@ -78,36 +78,24 @@ class Routes(unittest.TestCase):
         generator = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(generator)
         fixture = (
-            generator.START + '\n' + generator.END + '<ol class="lesson-list">' +
+            '<ol class="lesson-list">'
             '<li data-week-start="2030-02-03"><span class="status ready">Ready to study</span><a href="lessons/new.html">New</a></li>'
             '<li data-week-start="2030-02-10"><span class="status">Not ready yet</span><a href="lessons/future.html">Future</a></li>'
             '<li data-week-start="2030-01-27"><span class="status ready">Ready to study</span><a href="lessons/old.html">Old</a></li></ol>'
         )
-
-        def latest(doc):
-            region = doc.split(generator.START, 1)[1].split(generator.END, 1)[0]
-            fragment = HTMLParser()
-            hrefs = []
-            fragment.handle_starttag = lambda tag, attrs: hrefs.append(dict(attrs)['href']) if tag == 'a' else None
-            fragment.feed(region)
-            return hrefs
-
-        fixture = fixture.replace('</li><li', '</li>\n <li')
-
-        def order(doc):
-            return [card['route'] for card in generator.CollectionCards(doc).cards]
-
-        self.assertEqual(order(generator.render(fixture)),
+        cards = generator.CollectionCards(fixture).cards
+        latest = generator.latest_ready(cards)
+        self.assertEqual(latest['route'], 'lessons/new.html')
+        self.assertIn('href="lessons/new.html"', generator.feature(latest)[0])
+        self.assertNotIn('This week', generator.feature(latest)[0])
+        self.assertEqual([card['route'] for card in generator.CollectionCards(generator.order_archive(fixture, cards)).cards],
                          ['lessons/new.html', 'lessons/old.html', 'lessons/future.html'])
-        reversed_fixture = fixture.replace('2030-01-27', '2030-02-17')
-        self.assertEqual(order(generator.render(reversed_fixture)),
-                         ['lessons/old.html', 'lessons/new.html', 'lessons/future.html'])
-        self.assertEqual(order(generator.render(fixture.replace('class="status ready"', 'class="status"'))),
-                         ['lessons/future.html', 'lessons/new.html', 'lessons/old.html'])
-        self.assertEqual(generator.render(generator.render(fixture)), generator.render(fixture))
-        self.assertEqual(latest(generator.render(fixture)), ['lessons/new.html'])
-        self.assertEqual(latest(generator.render(fixture.replace('class="status"', 'class="status ready"'))), ['lessons/future.html'])
-        self.assertEqual(latest(generator.render(fixture.replace('class="status ready"', 'class="status"'))), [])
+        promoted = fixture.replace('class="status"', 'class="status ready"')
+        self.assertEqual(generator.latest_ready(generator.CollectionCards(promoted).cards)['route'],
+                         'lessons/future.html')
+        empty = fixture.replace('class="status ready"', 'class="status"')
+        self.assertIsNone(generator.latest_ready(generator.CollectionCards(empty).cards))
+        self.assertEqual(generator.render(ROOT)['2027.html'], (ROOT / '2027.html').read_text())
 
     def test_core_joel_and_amos_readings_are_available_inline(self):
         joel = (ROOT / 'lessons/hosea-joel.html').read_text(encoding='utf-8')

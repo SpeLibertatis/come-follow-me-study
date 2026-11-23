@@ -1,5 +1,7 @@
 # Explicit student deployment allowlist, paths relative to the repository root.
 # Keep earlier student entry points and URLs compatible.
+2026.html
+2027.html
 PRIVACY.md
 adventure.html
 amos.css
@@ -41,6 +43,7 @@ handouts/joel-quick-study.pdf
 index.html
 joel.css
 journal.html
+landing.css
 legacy-links.js
 lessons.css
 lessons.html

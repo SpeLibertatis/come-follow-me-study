@@ -30,6 +30,7 @@ jobs:
         run: |
           python tests/verify.py
           python tests/verify_routes.py
+          python tests/verify_collection.py
           python tests/verify_student_artifact.py
           python tests/verify_handout.py
           python tests/verify_amos_release.py

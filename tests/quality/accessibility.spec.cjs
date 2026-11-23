@@ -5,6 +5,8 @@ const { dirname } = require('node:path');
 
 const routes = [
   ['Collection', '/'],
+  ['2026 archive', '/2026.html'],
+  ['2027 archive', '/2027.html'],
   ['Daniel study', '/daniel.html'],
   ['Daniel word challenge (open)', '/daniel.html'],
   ['Explore Further', '/explore.html'],
