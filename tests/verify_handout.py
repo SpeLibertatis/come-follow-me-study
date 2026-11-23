@@ -49,4 +49,6 @@ class ExploreCompanion(unittest.TestCase):
         for name in ['daniel.html','explore.html']:
             self.assertIn('href="handouts/daniel-explore-further.pdf"',(ROOT/name).read_text(encoding='utf-8'))
 
+from verify_pdf_structure import StudentPdfStructure  # Run the structure regression in the existing CI step.
+
 if __name__=='__main__': unittest.main()
