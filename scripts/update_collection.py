@@ -1,4 +1,4 @@
-"""Refresh the static latest-study link from the dated published archive cards."""
+"""Refresh the static latest-study link and order the dated archive cards."""
 import argparse
 from datetime import date
 from html import escape
@@ -14,6 +14,8 @@ ROUTE = re.compile(r'(?:lessons/)?[a-z0-9-]+\.html\Z')
 class CollectionCards(HTMLParser):
     def __init__(self, html):
         super().__init__()
+        self.html = html
+        self.line_offsets = [0, *(match.end() for match in re.finditer(r'\n', html))]
         self.cards = []
         self.card = None
         self.capture = False
@@ -21,10 +23,15 @@ class CollectionCards(HTMLParser):
         if not self.cards:
             raise ValueError('No dated archive cards found')
 
+    def source_offset(self):
+        line, column = self.getpos()
+        return self.line_offsets[line - 1] + column
+
     def handle_starttag(self, tag, pairs):
         attrs = dict(pairs)
         if tag == 'li' and 'data-week-start' in attrs:
             self.card = {
+                'start': self.source_offset(),
                 'date': date.fromisoformat(attrs['data-week-start']),
                 'ready': False,
                 'route': None,
@@ -44,6 +51,7 @@ class CollectionCards(HTMLParser):
         if tag == 'li' and self.card is not None:
             if not ROUTE.fullmatch(self.card['route'] or '') or not self.card['title'].strip():
                 raise ValueError('Each dated archive card needs a local study title link')
+            self.card['end'] = self.html.index('>', self.source_offset()) + 1
             self.cards.append(self.card)
             self.card = None
 
@@ -52,18 +60,31 @@ class CollectionCards(HTMLParser):
             self.card['title'] += text
 
 
+def order_archive(html, cards, latest):
+    # Swap whole cards in place, preserving the surrounding markup and spacing.
+    ordered = sorted(cards, key=lambda card: (card is latest, card['date']), reverse=True)
+    parts = []
+    previous_end = 0
+    for slot, card in zip(cards, ordered):
+        parts.append(html[previous_end:slot['start']])
+        parts.append(html[card['start']:card['end']])
+        previous_end = slot['end']
+    return ''.join(parts) + html[previous_end:]
+
+
 def render(html):
     if html.count(START) != 1 or html.count(END) != 1:
         raise ValueError('Expected one generated latest-study slot')
-    start, _, after = html.partition(START)
-    _, _, end = after.partition(END)
     cards = CollectionCards(html).cards
     if len({card['date'] for card in cards}) != len(cards):
         raise ValueError('Archive card dates must be unique')
     ready = [card for card in cards if card['ready']]
+    latest = max(ready, key=lambda card: card['date'], default=None)
+    html = order_archive(html, cards, latest)
+    start, _, after = html.partition(START)
+    _, _, end = after.partition(END)
     output = ''
-    if ready:
-        latest = max(ready, key=lambda card: card['date'])
+    if latest:
         title = escape(latest['title'].strip())
         route = escape(latest['route'], quote=True)
         output = (
