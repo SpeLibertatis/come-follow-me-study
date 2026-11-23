@@ -1,6 +1,9 @@
 """Validate every canonical student route and the compatibility redirects."""
 from html.parser import HTMLParser
 from pathlib import Path
+import importlib.util
+import subprocess
+import sys
 from urllib.parse import unquote, urlsplit
 import unittest
 
@@ -64,6 +67,49 @@ class Routes(unittest.TestCase):
 
     def test_collection_alias_stays_identical(self):
         self.assertEqual((ROOT / 'index.html').read_bytes(), (ROOT / 'lessons.html').read_bytes())
+
+    def test_latest_study_is_current_in_both_static_aliases(self):
+        subprocess.run([sys.executable, str(ROOT / 'scripts/update_collection.py'), '--check'], check=True, cwd=ROOT)
+
+    def test_latest_study_follows_newest_ready_card_not_future_or_archive_position(self):
+        spec = importlib.util.spec_from_file_location('update_collection', ROOT / 'scripts/update_collection.py')
+        generator = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(generator)
+        fixture = (
+            generator.START + '\n' + generator.END +
+            '<li data-week-start="2030-02-03"><span class="status ready">Ready to study</span><a href="lessons/new.html">New</a></li>'
+            '<li data-week-start="2030-02-10"><span class="status">Not ready yet</span><a href="lessons/future.html">Future</a></li>'
+            '<li data-week-start="2030-01-27"><span class="status ready">Ready to study</span><a href="lessons/old.html">Old</a></li>'
+        )
+
+        def latest(doc):
+            region = doc.split(generator.START, 1)[1].split(generator.END, 1)[0]
+            fragment = HTMLParser()
+            hrefs = []
+            fragment.handle_starttag = lambda tag, attrs: hrefs.append(dict(attrs)['href']) if tag == 'a' else None
+            fragment.feed(region)
+            return hrefs
+
+        self.assertEqual(latest(generator.render(fixture)), ['lessons/new.html'])
+        self.assertEqual(latest(generator.render(fixture.replace('class="status"', 'class="status ready"'))), ['lessons/future.html'])
+        self.assertEqual(latest(generator.render(fixture.replace('class="status ready"', 'class="status"'))), [])
+
+    def test_core_joel_and_amos_readings_are_available_inline(self):
+        joel = (ROOT / 'lessons/hosea-joel.html').read_text(encoding='utf-8')
+        amos = (ROOT / 'lessons/amos-obadiah-jonah.html').read_text(encoding='utf-8')
+        self.assertIn('Acts 2:32–33 · King James Version', joel)
+        self.assertIn('he hath shed forth this', joel)
+        self.assertIn('Amos 7:12–15 · King James Version', amos)
+        self.assertIn('prophesy unto my people Israel', amos)
+        self.assertIn('3 Nephi 11:29–30 · Original paraphrase', amos)
+
+    def test_student_study_links_use_same_three_shortcut_labels(self):
+        for route in ('daniel.html', 'lessons/hosea-joel.html', 'lessons/amos-obadiah-jonah.html'):
+            html = (ROOT / route).read_text(encoding='utf-8')
+            segment = html.partition('aria-label="Study options"')[2].partition('</nav>')[0]
+            with self.subTest(route=route):
+                for label in ('Quick study', 'Go deeper', 'Print'):
+                    self.assertIn(f'>{label}</a>', segment)
 
     def test_internal_links_anchors_assets_and_outbound_attributes(self):
         self.assertEqual(list(route_findings(ROOT, self.routes)), [])

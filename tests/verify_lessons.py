@@ -34,6 +34,22 @@ class Lessons(BrowserCase):
         self.assertFalse(self.errors)
         self.assertTrue(all(u.startswith(self.url) for u in self.requests))
 
+    def test_latest_study_works_from_both_collection_urls_without_javascript(self):
+        page = self.browser.new_page(java_script_enabled=False, viewport={'width': 390, 'height': 844})
+        try:
+            for entry in ('index.html', 'lessons.html'):
+                page.goto(self.url + entry)
+                action = page.get_by_role('link', name='Open the latest study', exact=True)
+                expect(action).to_be_visible()
+                href = action.get_attribute('href')
+                destination_card = page.locator(f'.lesson-list a[href="{href}"]').locator('xpath=ancestor::li')
+                expect(destination_card.locator('.status')).to_have_text('Ready to study')
+                action.click()
+                expect(page).to_have_url(self.url + href)
+                expect(page.get_by_role('navigation', name='Study options')).to_be_visible()
+        finally:
+            page.close()
+
     def test_joel_companion(self):
         self.page.goto(self.url+'lessons.html')
         self.page.get_by_role('link',name='Hosea 1–6; 10–14; Joel',exact=True).click()
@@ -97,7 +113,7 @@ class Lessons(BrowserCase):
             self.assertTrue(disclosure.evaluate('(el) => el.open'))
             summary.press('Space')
             self.assertFalse(disclosure.evaluate('(el) => el.open'))
-        self.page.get_by_role('link', name='Print & keep').click()
+        self.page.get_by_role('navigation', name='Study options').get_by_role('link', name='Print', exact=True).click()
         expect(self.page).to_have_url(self.url + 'lessons/amos-obadiah-jonah.html#downloads')
         for link in self.page.locator('#downloads a').all():
             response = self.page.request.get(link.get_attribute('href').replace('../', self.url))
