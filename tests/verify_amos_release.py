@@ -16,7 +16,7 @@ class Page(HTMLParser):
 
 class Amos(unittest.TestCase):
     def test_qr_route_points_to_study(self):
-        for entry in ("lessons.html", "index.html"):
+        for entry in ("2026.html",):
             with self.subTest(entry=entry):
                 self.assertIn(ROUTE, [a.get("href") for _, a in Page(ROOT / entry).tags])
         lesson = ROOT / ROUTE

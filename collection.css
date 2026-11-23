@@ -6,3 +6,5 @@
 .latest-study-title span{font-size:.875rem;text-transform:uppercase;letter-spacing:.08em}
 .latest-study-title strong{font:1.4rem/1.2 var(--cfm-font-editorial)}
 .collection-hero .archive-link{display:flex;align-items:center;width:fit-content;min-height:44px;margin-top:.5rem;color:inherit}
+/* Keep historical 2026 cards in the compact year-archive shell. */
+.edition-2026 .collection-body { max-width: none; margin: 0; padding: 0; }

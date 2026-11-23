@@ -21,7 +21,7 @@ class StudentArtifact(TestCase):
                              sorted(manifest))
             self.assertEqual(list(route_findings(output, read_routes(output))), [])
             self.assertEqual((output / 'index.html').read_bytes(), (output / 'lessons.html').read_bytes())
-            for path in ('adventure.html', 'journal.html', 'daniel.html', 'explore.html',
+            for path in ('adventure.html', 'journal.html', 'daniel.html', 'explore.html', '2026.html', '2027.html',
                          'legacy-links.js', 'PRIVACY.md', 'lessons/hosea-joel.html', 'lessons/amos-obadiah-jonah.html'):
                 self.assertIn(path, manifest)
             self.assertTrue(

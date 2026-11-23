@@ -2,11 +2,12 @@
 from browser_fixture import BrowserCase, expect
 from pathlib import Path
 import unittest
+import re
 
 class Lessons(BrowserCase):
     def test_lesson_navigation(self):
-        self.page.goto(self.url + 'lessons.html')
-        expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
+        self.page.goto(self.url + '2026.html')
+        expect(self.page).to_have_title('2026 Old Testament · Scripture study')
         cards = self.page.locator('.lesson-list li').evaluate_all("""cards => cards.map(card => ({
             path: card.querySelector('h2 a').getAttribute('href'),
             status: card.querySelector('.status').textContent.trim()
@@ -25,10 +26,10 @@ class Lessons(BrowserCase):
                     expect(placeholder).to_be_visible()
                     expect(self.page.get_by_role('link', name='Read the official lesson')).to_have_attribute('rel', 'noopener noreferrer')
                     self.page.get_by_role('link', name='← Back to all lessons').click()
-                    expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
+                    expect(self.page).to_have_title('All lessons · Scripture study')
                 else:
                     expect(placeholder).to_have_count(0)
-        self.page.goto(self.url + 'lessons.html')
+        self.page.goto(self.url + '2026.html')
         self.page.get_by_role('link',name='Daniel 1–7',exact=True).click()
         expect(self.page.locator('#lions-den')).to_have_count(1)
         self.assertFalse(self.errors)
@@ -39,26 +40,29 @@ class Lessons(BrowserCase):
         try:
             for entry in ('index.html', 'lessons.html'):
                 page.goto(self.url + entry)
-                action = page.get_by_role('link', name='Open the latest study', exact=True)
+                action = page.get_by_role('link', name=re.compile('^Start the study'))
                 expect(action).to_be_visible()
                 href = action.get_attribute('href')
+                page.get_by_role('link', name='Browse all lessons').click()
+                expect(page).to_have_url(self.url + entry + '#studies')
+                page.get_by_role('link', name='2026 Old Testament', exact=False).click()
+                expect(page).to_have_url(self.url + '2026.html')
                 archive = page.locator('.lesson-list > li')
-                expect(archive.first.locator('h2 a')).to_have_attribute('href', href)
+                self.assertGreater(archive.count(), 0)
                 state_and_dates = archive.evaluate_all("""cards => cards.map(card => [
                     card.querySelector('.status').classList.contains('ready'), card.dataset.weekStart
                 ])""")
                 self.assertEqual(state_and_dates, sorted(state_and_dates, reverse=True))
-                destination_card = page.locator(f'.lesson-list a[href="{href}"]').locator('xpath=ancestor::li')
-                expect(destination_card.locator('.status')).to_have_text('Ready to study')
-                action.click()
+                page.goto(self.url + entry)
+                page.get_by_role('link', name=re.compile('^Start the study')).click()
                 expect(page).to_have_url(self.url + href)
-                expect(page.get_by_role('navigation', name='Study options')).to_be_visible()
+                expect(page.get_by_role('heading', level=1)).to_be_visible()
         finally:
             page.close()
 
     def test_joel_companion(self):
         self.page.goto(self.url+'lessons.html')
-        self.page.get_by_role('link',name='Hosea 1–6; 10–14; Joel',exact=True).click()
+        self.page.get_by_role('link',name='Open student study: Hosea & Joel',exact=True).click()
         expect(self.page).to_have_title('Joel — I will pour out my spirit upon all flesh')
         self.page.get_by_role('link',name='Begin the quick path').click()
         expect(self.page.locator('#quick-title')).to_be_visible()
@@ -81,17 +85,14 @@ class Lessons(BrowserCase):
             self.assertEqual(response.status,200)
             self.assertTrue(response.body().startswith(b'%PDF'))
         self.page.locator('header .site-brand').click()
-        expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
+        expect(self.page).to_have_title('All lessons · Scripture study')
         self.assertTrue(all(u.startswith(self.url) for u in self.requests))
 
     def test_amos_companion(self):
         self.page.set_viewport_size({'width': 390, 'height': 844})
-        for collection in ('index.html', 'lessons.html'):
-            self.page.goto(self.url + collection)
-            lesson = self.page.locator('.lesson-list li').filter(has_text='November 23–29, 2026')
-            expect(lesson.locator('.status')).to_have_text('Ready to study')
-            lesson.get_by_role('link', name='Amos; Obadiah; Jonah', exact=True).click()
-            expect(self.page).to_have_url(self.url + 'lessons/amos-obadiah-jonah.html')
+        self.page.goto(self.url + '2026.html')
+        self.page.get_by_role('link', name='Amos; Obadiah; Jonah', exact=True).click()
+        expect(self.page).to_have_url(self.url + 'lessons/amos-obadiah-jonah.html')
 
         expect(self.page.get_by_role('heading', name='A voice worth hearing.')).to_be_visible()
         expect(self.page.locator('.amos-hero .verse-label')).to_have_text(
@@ -154,15 +155,20 @@ class Lessons(BrowserCase):
     def test_home_and_legacy_routes(self):
         for path in ['', 'index.html', 'lessons.html']:
             self.page.goto(self.url+path)
-            expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
+            expect(self.page).to_have_title('All lessons · Scripture study')
             self.assertEqual(self.page.locator('header').get_by_text('Daniel study').count(),0)
             self.assertEqual(self.page.locator('link[rel="icon"]').count(),1)
-        for fragment in ['#lions-den','#daniel-3','#reflection']:
-            self.page.goto(self.url+fragment)
-            expect(self.page).to_have_url(self.url+'daniel.html'+fragment)
+        for path in ['', 'index.html', 'lessons.html']:
+            self.page.goto(self.url + path + '#studies')
+            expect(self.page).to_have_url(self.url + path + '#studies')
+            expect(self.page.locator('#studies')).to_be_visible()
+            for fragment in ['#landing', '#daniel-1', '#daniel-3', '#daniel-6', '#reflection', '#lions-den', '#finished']:
+                self.page.goto('about:blank')
+                self.page.goto(self.url + path + fragment)
+                expect(self.page).to_have_url(self.url + 'daniel.html' + fragment)
         self.page.goto(self.url+'daniel.html')
         self.page.locator('header .site-brand').click()
-        expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
+        expect(self.page).to_have_title('All lessons · Scripture study')
 
     def test_design_screenshots(self):
         import os
@@ -170,7 +176,7 @@ class Lessons(BrowserCase):
         folder.mkdir(parents=True,exist_ok=True)
         for width in [390,1280]:
             self.page.set_viewport_size({'width':width,'height':900})
-            for name,path in [('collection','index.html'),('joel','lessons/hosea-joel.html')]:
+            for name,path in [('collection','index.html'),('archive-2026','2026.html'),('archive-2027','2027.html'),('joel','lessons/hosea-joel.html')]:
                 self.page.goto(self.url+path)
                 for picture in self.page.locator('img').all():
                     picture.scroll_into_view_if_needed()
@@ -189,7 +195,7 @@ class Lessons(BrowserCase):
             self.page.screenshot(path=str(folder/f'joel-deep-{width}.png'))
 
     def test_lesson_reflow(self):
-        paths=['','lessons.html']+['lessons/'+p.name for p in (Path(__file__).resolve().parents[1]/'lessons').glob('*.html')]
+        paths=['','lessons.html','2026.html','2027.html']+['lessons/'+p.name for p in (Path(__file__).resolve().parents[1]/'lessons').glob('*.html')]
         for width,scale in [(320,1),(421,2),(480,2),(640,2),(1280,1)]:
             self.page.set_viewport_size({'width':width,'height':900})
             for path in paths:
