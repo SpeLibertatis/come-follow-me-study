@@ -9,7 +9,7 @@ class Lessons(WordChallenge):
         expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
         links=self.page.locator('.lesson-list h2 a').evaluate_all('(els) => els.map(e => e.getAttribute("href"))')
         self.assertEqual(len(links),7)
-        for path in links[2:]:
+        for path in links[3:]:
             response=self.page.goto(self.url+path)
             self.assertEqual(response.status,200)
             expect(self.page.get_by_role('heading',name='Not ready yet',exact=True)).to_be_visible()
@@ -47,6 +47,59 @@ class Lessons(WordChallenge):
             self.assertTrue(response.body().startswith(b'%PDF'))
         self.page.locator('header .site-brand').click()
         expect(self.page).to_have_title('All lessons · 2026 — Scripture study')
+        self.assertTrue(all(u.startswith(self.url) for u in self.requests))
+
+    def test_amos_companion(self):
+        self.page.set_viewport_size({'width': 390, 'height': 844})
+        for collection in ('index.html', 'lessons.html'):
+            self.page.goto(self.url + collection)
+            lesson = self.page.locator('.lesson-list li').filter(has_text='November 23–29, 2026')
+            expect(lesson.locator('.status')).to_have_text('Ready to study')
+            lesson.get_by_role('link', name='Amos; Obadiah; Jonah', exact=True).click()
+            expect(self.page).to_have_url(self.url + 'lessons/amos-obadiah-jonah.html')
+
+        expect(self.page.get_by_role('heading', name='A voice worth hearing.')).to_be_visible()
+        expect(self.page.locator('.amos-hero .verse-label')).to_have_text(
+            'THE LORD REVEALS TRUTH THROUGH HIS PROPHETS.')
+        self.page.locator('.amos-hero img').evaluate('(img) => img.decode()')
+        self.assertTrue(self.page.locator('.amos-hero img').evaluate(
+            "(img) => img.currentSrc.endsWith('/assets/amos-hillside-small.webp')"))
+        self.page.keyboard.press('Tab')
+        expect(self.page.locator('.skip')).to_be_focused()
+        self.page.keyboard.press('Enter')
+        expect(self.page.locator('#main')).to_be_focused()
+        self.page.get_by_role('link', name='Begin the quick path').click()
+        expect(self.page).to_have_url(self.url + 'lessons/amos-obadiah-jonah.html#quick')
+        expect(self.page.locator('#quick .quick-step')).to_have_count(3)
+        self.page.get_by_role('link', name='Choose one small next step').click()
+        expect(self.page).to_have_url(self.url + 'lessons/amos-obadiah-jonah.html#complete')
+        expect(self.page.locator('#complete .practice-choices details')).to_have_count(3)
+        self.page.get_by_role('link', name='Keep exploring').click()
+        expect(self.page).to_have_url(self.url + 'lessons/amos-obadiah-jonah.html#deep')
+        expect(self.page.locator('#deep .deep-module')).to_have_count(3)
+        for disclosure in self.page.locator('.deep-module, .practice-choices details').all():
+            summary = disclosure.locator(':scope > summary')
+            summary.focus()
+            summary.press('Enter')
+            self.assertTrue(disclosure.evaluate('(el) => el.open'))
+            summary.press('Space')
+            self.assertFalse(disclosure.evaluate('(el) => el.open'))
+        self.page.get_by_role('link', name='Print & keep').click()
+        expect(self.page).to_have_url(self.url + 'lessons/amos-obadiah-jonah.html#downloads')
+        for link in self.page.locator('#downloads a').all():
+            response = self.page.request.get(link.get_attribute('href').replace('../', self.url))
+            self.assertEqual(response.status, 200)
+            self.assertTrue(response.body().startswith(b'%PDF'))
+        expect(self.page.locator('form, input, textarea, iframe, script')).to_have_count(0)
+        expect(self.page.locator('meta[name="referrer"]')).to_have_attribute('content', 'no-referrer')
+        csp = self.page.locator('meta[http-equiv="Content-Security-Policy"]').get_attribute('content')
+        self.assertIn("connect-src 'none'", csp)
+        for link in self.page.locator('main a[target="_blank"]').all():
+            expect(link).to_have_attribute('rel', 'noopener noreferrer')
+            self.assertTrue(link.get_attribute('href').startswith('https://www.churchofjesuschrist.org/'))
+        for link in self.page.locator('main a[href^="#"]').all():
+            expect(self.page.locator(link.get_attribute('href'))).to_have_count(1)
+        self.assertFalse(self.errors)
         self.assertTrue(all(u.startswith(self.url) for u in self.requests))
 
     def test_home_and_legacy_routes(self):
@@ -92,7 +145,7 @@ class Lessons(WordChallenge):
             self.page.set_viewport_size({'width':width,'height':900})
             for path in paths:
                 self.page.goto(self.url+path)
-                if 'hosea-joel' in path:
+                if path in ('lessons/hosea-joel.html', 'lessons/amos-obadiah-jonah.html'):
                     self.page.locator('details').evaluate_all('(els)=>els.forEach(e=>e.open=true)')
                 self.page.evaluate('(s)=>document.documentElement.style.fontSize = `${s*100}%`',scale)
                 self.assertTrue(self.page.evaluate('document.documentElement.scrollWidth <= innerWidth'),(path,width,scale))

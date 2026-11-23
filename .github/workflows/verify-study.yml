@@ -29,6 +29,7 @@ jobs:
         run: |
           python tests/verify.py
           python tests/verify_handout.py
+          python tests/verify_amos_release.py
           node --check study.js
           node --check explore.js
           node --check game.js
