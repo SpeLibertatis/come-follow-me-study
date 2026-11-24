@@ -12,10 +12,10 @@ header.site-header {
   min-height: 3.875rem;
   margin-inline: auto;
   padding: .45rem clamp(1.15rem, 5vw, 4rem);
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
+  justify-items: start;
   gap: .15rem .6rem;
 }
 .site-header a {
@@ -30,6 +30,8 @@ header.site-header {
 }
 .site-header .site-brand {
   gap: .65rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
   text-decoration: none;
   font-size: .81rem;
   font-weight: 750;
@@ -37,4 +39,5 @@ header.site-header {
 }
 .site-header .site-brand img { width: 32px; height: 32px; flex: none; }
 .site-header nav a { font-size: .875rem; font-weight: 600; text-underline-offset: .22em; }
+@media (max-width: 15rem) { .site-header .site-header-inner { grid-template-columns: 1fr; } }
 @media print { header.site-header { display: none; } }
