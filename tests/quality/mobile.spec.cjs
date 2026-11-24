@@ -86,7 +86,10 @@ test('cold mobile collection loads one hero within budget and stays on native ro
   await expect(page.getByRole('heading', {name: 'Matthew 1; Luke 1'})).toBeVisible();
   await expect(page.getByText('Dec 28, 2026–Jan 3, 2027', {exact: true})).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBeTruthy();
-  await page.getByRole('link', {name: /All lessons/}).tap();
+  const header = page.getByRole('banner');
+  await expect(header.getByRole('link', {name: 'COME, FOLLOW ME'})).toBeVisible();
+  await header.getByRole('link', {name: 'All lessons', exact: true}).tap();
+  await expect(page).toHaveURL(/index\.html#studies$/);
   const start = page.getByRole('link', {name: /Start the study/});
   const target = new URL(await start.getAttribute('href'), page.url()).href;
   await start.tap();

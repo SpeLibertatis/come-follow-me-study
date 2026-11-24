@@ -5,6 +5,8 @@ from pathlib import Path
 import re
 from string import Template
 
+from shared_header import apply as apply_header
+
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATES = ROOT / 'scripts/templates'
 DANIEL = 'daniel.html'
@@ -16,15 +18,6 @@ DESTINATIONS = {
     DANIEL: {'quick': '#daniel-1', 'deep': 'explore.html', 'print': '#student-print'},
     JOEL: COMPANION_LINKS,
     AMOS: COMPANION_LINKS,
-}
-
-HEADERS = {
-    DANIEL: {
-        'home': 'index.html', 'asset_prefix': '',
-        'extra_link': '<a href="explore.html" target="_blank" rel="noopener noreferrer">Explore Further ↗</a>',
-    },
-    JOEL: {'home': '../index.html', 'asset_prefix': '../', 'extra_link': ''},
-    AMOS: {'home': '../lessons.html', 'asset_prefix': '../', 'extra_link': ''},
 }
 
 FOOTERS = {
@@ -66,7 +59,6 @@ COMPANIONS = {
 }
 
 SLOTS = {
-    'study-header': r'<header class="site-header"[^>]*>.*?</header>',
     'study-navigation': r'<nav class="study-path"[^>]*>.*?</nav>',
     'study-footer': r'<footer>.*?</footer>',
     **{f'companion-{name}': rf'<section id="{anchor}"[^>]*>(?:(?!</?section\b).)*?</h2>'
@@ -86,7 +78,6 @@ def render_component(source, name, values):
 
 def render(source, route):
     components = {
-        'study-header': HEADERS[route],
         'study-navigation': {key: escape(href, quote=True) for key, href in DESTINATIONS[route].items()},
         'study-footer': {'brand': '', 'extra': '', **FOOTERS[route]},
     }
@@ -102,11 +93,18 @@ def main():
     parser.add_argument('--check', action='store_true', help='Fail if the tracked HTML needs regenerating')
     args = parser.parse_args()
     changes = {}
-    for route in DESTINATIONS:
-        path = ROOT / route
+    collection = {'index.html', 'lessons.html', '2026.html', '2027.html'}
+    redirects = {'adventure.html', 'journal.html'}
+    paths = sorted([*ROOT.glob('*.html'), *(ROOT / 'lessons').glob('*.html')])
+    for path in paths:
+        route = path.relative_to(ROOT).as_posix()
+        if route in collection | redirects:
+            continue
         original = path.read_text(encoding='utf-8')
         try:
-            generated = render(original, route)
+            generated = apply_header(original, route)
+            if route in DESTINATIONS:
+                generated = render(generated, route)
         except ValueError as error:
             parser.exit(1, f'{route}: {error}.\n')
         if generated != original:

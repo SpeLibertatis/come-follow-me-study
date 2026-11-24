@@ -8,6 +8,8 @@ from pathlib import Path
 from string import Template
 import re
 
+from shared_header import apply as apply_header
+
 ROUTE = re.compile(r'(?:lessons/)?[a-z0-9-]+\.html\Z')
 
 
@@ -220,8 +222,9 @@ def render(root):
         recent=''.join(recent_entry(card) for card in recent) or '<p>No additional student studies are published yet.</p>',
         coming='<ul class="calendar">' + ''.join(official_entry(card) for card in coming) + '</ul>'
         if coming else '<p>No upcoming official readings are listed here.</p>')
-    return {'index.html': home, 'lessons.html': home,
-            '2026.html': order_archive(archive, cards), '2027.html': new_year}
+    pages = {'index.html': home, 'lessons.html': home,
+             '2026.html': order_archive(archive, cards), '2027.html': new_year}
+    return {route: apply_header(source, route) for route, source in pages.items()}
 
 
 def main():

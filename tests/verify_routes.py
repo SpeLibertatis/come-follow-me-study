@@ -4,6 +4,7 @@ from pathlib import Path
 import shutil
 from tempfile import TemporaryDirectory
 import importlib.util
+import re
 import subprocess
 import sys
 from urllib.parse import unquote, urlsplit
@@ -67,6 +68,22 @@ class Routes(unittest.TestCase):
     def setUpClass(cls):
         cls.routes = read_routes(ROOT)
 
+    def test_every_visible_student_page_uses_the_same_slim_header(self):
+        headers = set()
+        for route in sorted(set(self.routes) - REDIRECTS):
+            source = (ROOT / route).read_text(encoding='utf-8')
+            prefix = '../' if '/' in route else ''
+            with self.subTest(route=route):
+                blocks = re.findall(r'<header class="site-header">.*?</header>', source, re.S)
+                self.assertEqual(len(blocks), 1)
+                self.assertIn(f'href="{prefix}site-header.css"', source)
+                self.assertIn(f'href="{prefix}index.html#studies">All lessons</a>', blocks[0])
+                self.assertIn('width="32" height="32"', blocks[0])
+                self.assertLess(source.index('class="skip"'), source.index(blocks[0]))
+                self.assertLess(source.index(blocks[0]), source.index('<main'))
+                headers.add(blocks[0].replace(f'href="{prefix}', 'href="').replace(f'src="{prefix}', 'src="'))
+        self.assertEqual(len(headers), 1)
+
     def test_collection_alias_stays_identical(self):
         self.assertEqual((ROOT / 'index.html').read_bytes(), (ROOT / 'lessons.html').read_bytes())
 
@@ -74,6 +91,7 @@ class Routes(unittest.TestCase):
         subprocess.run([sys.executable, str(ROOT / 'scripts/update_collection.py'), '--check'], check=True, cwd=ROOT)
 
     def test_latest_study_follows_newest_ready_card_not_future_or_archive_position(self):
+        sys.path.insert(0, str(ROOT / 'scripts'))
         spec = importlib.util.spec_from_file_location('update_collection', ROOT / 'scripts/update_collection.py')
         generator = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(generator)
@@ -117,7 +135,7 @@ class Routes(unittest.TestCase):
         with TemporaryDirectory() as tmp:
             fixture = Path(tmp)
             templates = tuple(path.relative_to(ROOT) for path in (ROOT / 'scripts/templates').glob('*.html'))
-            for relative_path in (*routes, 'scripts/update_study_layout.py', *templates):
+            for relative_path in (*routes, 'scripts/update_study_layout.py', 'scripts/shared_header.py', *templates):
                 target = fixture / relative_path
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT / relative_path, target)
