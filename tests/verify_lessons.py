@@ -5,6 +5,39 @@ import unittest
 import re
 
 class Lessons(BrowserCase):
+    def test_shared_header_reflows_and_keeps_keyboard_navigation(self):
+        routes = ['', 'index.html', 'lessons.html', '2026.html', '2027.html', 'daniel.html',
+                  'explore.html', 'lessons/amos-obadiah-jonah.html', 'lessons/hosea-joel.html',
+                  'lessons/christmas.html', 'lessons/haggai-zechariah.html',
+                  'lessons/malachi.html', 'lessons/micah-zephaniah.html']
+        for width in (320, 1280):
+            self.page.set_viewport_size({'width': width, 'height': 860})
+            for route in routes:
+                with self.subTest(width=width, route=route):
+                    self.page.goto('about:blank')
+                    self.page.goto(self.url + route)
+                    header = self.page.locator('header.site-header')
+                    expect(header).to_have_count(1)
+                    links = header.get_by_role('link')
+                    expect(links).to_have_count(2)
+                    self.assertAlmostEqual(62, header.bounding_box()['height'], delta=1)
+                    for link in links.all():
+                        bounds = link.bounding_box()
+                        self.assertGreaterEqual(bounds['height'], 44)
+                        self.assertGreaterEqual(bounds['x'], 0)
+                        self.assertLessEqual(bounds['x'] + bounds['width'], width)
+                    self.page.keyboard.press('Tab')
+                    expect(self.page.locator('a.skip')).to_be_focused()
+                    self.page.keyboard.press('Tab')
+                    expect(links.first).to_be_focused()
+                    self.page.keyboard.press('Tab')
+                    expect(links.last).to_be_focused()
+                    self.page.keyboard.press('Enter')
+                    expect(self.page).to_have_url(self.url + 'index.html#studies')
+        self.page.goto(self.url + 'lessons/hosea-joel.html')
+        self.page.emulate_media(media='print')
+        expect(self.page.locator('header.site-header')).to_be_hidden()
+
     def test_lesson_navigation(self):
         self.page.goto(self.url + '2026.html')
         expect(self.page).to_have_title('2026 Old Testament · Scripture study')

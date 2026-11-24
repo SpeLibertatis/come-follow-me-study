@@ -53,6 +53,7 @@ lessons/haggai-zechariah.html
 lessons/hosea-joel.html
 lessons/malachi.html
 lessons/micah-zephaniah.html
+site-header.css
 site.css
 study.css
 study.js
